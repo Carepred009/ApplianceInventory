@@ -15,15 +15,19 @@
     </button>
     <div class="collapse navbar-collapse" id="mynavbar">
       <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">Link</a>
-        </li>
+          {%if user.is_authenticated%}
+          <li class="nav-item">
+              {% include "logout.html" %}
+          </li>
+          {%else%}
+
         <li class="nav-item">
           <a class="nav-link" href="{% url 'login' %}">Log in</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'register' %}">Register</a>
         </li>
+          {%endif%}
       </ul>
       <form class="d-flex">
         <input class="form-control me-2" type="text" placeholder="Search">
