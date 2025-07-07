@@ -4,6 +4,7 @@ from .views import BaseView
 
 
 urlpatterns = [
-    path('',BaseView.as_view(), name="base"),
+    path('',BaseView.as_view(), name="home"),
+
 
 ]
