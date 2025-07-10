@@ -1,13 +1,20 @@
 from django.urls import path
 
-from .views import BaseView
+from .views import BaseView, CustomerView, CategoryView, SupplierView, ProductView ,StocksView
+
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('',BaseView.as_view(), name="home"),
 
+    path('stocks/',StocksView.as_view(), name="stocks"),
 
-path('logout/', auth_views.LogoutView.as_view(), name="logout"),
+    path('product/',ProductView.as_view(), name="product"),
+    path('supplier/', SupplierView.as_view(), name="supplier"),
+    path('category/', CategoryView.as_view(), name="category"),
+    path('customer/', CustomerView.as_view(), name="customer"),
+
+    path('logout/', auth_views.LogoutView.as_view(), name="logout"),
 
 
 ]

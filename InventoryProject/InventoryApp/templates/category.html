@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+
+
+
+{%block content%}
+<div class="container">
+        <div>
+            <form method="POST">
+                    {%csrf_token%}
+                    {{form.as_p}}
+
+                    <button class="btn btn-primary">SUBMIT Category</button>
+            </form>
+        </div>
+</div>
+
+{%endblock%}

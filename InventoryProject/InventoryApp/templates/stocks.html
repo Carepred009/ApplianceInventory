@@ -1,0 +1,20 @@
+{%extends 'base.html'%}
+
+{%block content%}
+{%if user.is_authenticated%}
+<div class="container">
+    <div class="form-group">
+      {%for stock in stocks%}
+
+        {{stock.product}}<br>
+        {{stock.supplier}}<br>
+          {{stock.actual_count}}<br><br>
+
+      {%endfor%}
+    </div>
+</div>
+
+{%else%}
+<h1>You MUST log in</h1>
+{%endif%}
+{%endblock%}
