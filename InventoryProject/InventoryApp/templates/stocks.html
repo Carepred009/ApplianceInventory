@@ -7,9 +7,23 @@
       {%for stock in stocks%}
 
         {{stock.product}}<br>
-        {{stock.supplier}}<br>
-          {{stock.actual_count}}<br><br>
+        <p>THIS is from new Inserted stocks:    <strong>{{stock.product.quantity}}</strong></p>
+        <br>
+        {{stock.product.price}}<br>
+        {{stock.supplier}}<br><br>
+        {{stock.product.transaction_date}}<br>
 
+        <br>
+
+       {% if stock.product.product_image %}
+            <img src="{{ stock.product.product_image.url }}" width="20%" height="40%" class="img-fluid rounded-start" alt="...">
+        {% else %}
+            <p>No image available for {{ stock.product.name }}</p>
+        {% endif %}
+        <br>
+
+     <h3>THIS ACTUAL COUNT from stocks: {{stock.actual_count}}</h3>
+        <h3>THIS IS TOTAL AMOUNT PER TRANSACTION{{stock.total_price}}</h3>
       {%endfor%}
     </div>
 </div>

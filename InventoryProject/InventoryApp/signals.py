@@ -1,5 +1,4 @@
-
-
+from django.db.models import F, Sum, DecimalField
 from django.db.models.signals import post_save
 from  django.dispatch import receiver
 
@@ -8,10 +7,22 @@ from . models import Product, Stocks
 @receiver(post_save, sender=Product)
 def create_stocks_model(sender, instance, created, **kwargs):
     if created:
+        total_quantity = Product.objects.aggregate(total=Sum('quantity'))['total'] or 0
+        #total_price_per_insert = Product.objects.aggregate(total_value=Sum(('price') * F('quantity')), output_field=DecimalField())['total_value'] or 0
+        # Multiply using F() and specify output_field
+        total_price_per_insert = Product.objects.aggregate(
+            total_value=Sum(
+                F('price') * F('quantity'),
+                output_field=DecimalField()
+            )
+
+        )['total_value'] or 0
+
         Stocks.objects.create(
             product=instance,
             supplier=instance.supplier,
-            actual_count =+ instance.quantity
+           actual_count = total_quantity,
+            total_price = total_price_per_insert,
 
         )
 

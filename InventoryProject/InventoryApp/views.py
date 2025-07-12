@@ -1,6 +1,7 @@
 from itertools import product
 from msilib.schema import ListView
 
+from django.forms import DecimalField
 from django.shortcuts import render
 
 from django.contrib import messages
@@ -11,7 +12,7 @@ from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm
 
 from django.views.generic import TemplateView, CreateView, ListView
 
-
+from django.db.models import Sum, F
 # Create your views here.
 
 
@@ -22,11 +23,22 @@ class StocksView(ListView):
     context_object_name = 'stocks'
 
 
+
 class ProductView(CreateView):
     model = Product
     template_name = 'product.html'
     form_class = ProductForm
     success_url = reverse_lazy('home')
+
+
+    def get_initial(self):
+        initial = super().get_initial()
+        total_value = Stocks.objects.aggregate(
+            total=Sum(
+                F('actual_count') * F('product__price'),
+                output_field=DecimalField(max_digits=12, decimal_places=2)
+            )
+        )['total'] or 0
 
     def form_valid(self, form):
         messages.success(self.request, 'Successfully added Product')
