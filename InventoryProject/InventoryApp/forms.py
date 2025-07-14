@@ -43,7 +43,7 @@ class SupplierForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('product_name','product_description','quantity','price','category','supplier','product_image','sum_per_transaction')
+        fields = ('product_name','product_description','quantity','price','category','supplier','product_image')
 
         widgets = {
             'product_name':forms.TextInput(attrs={'class':'form-control','placeholder':'Product Name'}),
@@ -52,7 +52,5 @@ class ProductForm(forms.ModelForm):
             'category':forms.Select(attrs={'class':'form-control'}),
             'supplier': forms.Select(attrs={'class': 'form-control'}),
             'transaction_date':forms.DateTimeInput(attrs={'type':'datetime-local'}),
-            'sum_per_transaction':forms.DecimalField(label="Total Stock Value",max_digits=12,decimal_places=2,widget=forms.TextInput(attrs={'readonly': 'readonly'})
-    )
 
         }

@@ -8,15 +8,9 @@ from . models import Product, Stocks
 def create_stocks_model(sender, instance, created, **kwargs):
     if created:
         total_quantity = Product.objects.aggregate(total=Sum('quantity'))['total'] or 0
-        #total_price_per_insert = Product.objects.aggregate(total_value=Sum(('price') * F('quantity')), output_field=DecimalField())['total_value'] or 0
-        # Multiply using F() and specify output_field
-        total_price_per_insert = Product.objects.aggregate(
-            total_value=Sum(
-                F('price') * F('quantity'),
-                output_field=DecimalField()
-            )
-
-        )['total_value'] or 0
+                                 #total_price_per_insert = Product.objects.aggregate(total_value=Sum(('price') * F('quantity')), output_field=DecimalField())['total_value'] or 0
+                                  # Multiply using F() and specify output_field
+        total_price_per_insert = Product.objects.aggregate(total_value=Sum( F('price') * F('quantity'),output_field=DecimalField()))['total_value'] or 0
 
         Stocks.objects.create(
             product=instance,

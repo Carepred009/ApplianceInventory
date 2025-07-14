@@ -30,49 +30,26 @@ class ProductView(CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('home')
 
-
-    def get_initial(self):
-        initial = super().get_initial()
-        total_value = Stocks.objects.aggregate(
-            total=Sum(
-                F('actual_count') * F('product__price'),
-                output_field=DecimalField(max_digits=12, decimal_places=2)
-            )
-        )['total'] or 0
-
     def form_valid(self, form):
+        quantity = form.cleaned_data.get('quantity')
+        price = form.cleaned_data.get('price')
+        total = quantity * price
+        form.instance.sum_per_transaction = total  # You called it sum_per_transaction in model
+
+        # Terminal print
+        print(f"[DEBUG] Creating product: {form.cleaned_data.get('product_name')}")
+        print(f"[DEBUG] Quantity: {quantity}, Price: {price}")
+        print(f"[DEBUG] Total (sum_per_transaction): {total}")
+
+        # User message
         messages.success(self.request, 'Successfully added Product')
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
         messages.error(self.request, 'Error On Saving!')
         return super().form_invalid(form)
 
-'''
-    def form_valid(self,form):
-        # Save the customer instance
-        product = form.save()
-
-        # Now create a Stocks entry using product data
-        Stocks.objects.create(
-            product = product,
-            supplier = product.supplier,
-            percentage = '0%'  # or any default value you want
-        )
-        return super().form_valid(form)
-
-
-        messages.success(self.request, 'Successfully added Product')
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, 'Error On Saving!')
-        return super().form_invalid(form)
-'''
-'''
-  
-
-'''
 class SupplierView(CreateView):
     model = Supplier
     template_name = 'supplier.html'
