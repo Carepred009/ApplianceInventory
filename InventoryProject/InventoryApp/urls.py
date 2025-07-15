@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import BaseView, CustomerView, CategoryView, SupplierView, ProductView ,StocksView
+from .views import BaseView, CustomerView, CategoryView, SupplierView, ProductView ,StocksView,SearchResultView
 
 from django.contrib.auth import views as auth_views
 
@@ -16,5 +16,5 @@ urlpatterns = [
 
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
 
-
+    path('search_result/',SearchResultView.as_view(), name="search")
 ]

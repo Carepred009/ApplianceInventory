@@ -12,8 +12,37 @@ from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm
 
 from django.views.generic import TemplateView, CreateView, ListView
 
-from django.db.models import Sum, F
+from django.db.models import Sum, F, Q
+
+
 # Create your views here.
+
+
+
+class SearchResultView(ListView):
+    model = Stocks
+    template_name = 'search.html'
+    context_object_name = 'results'
+    def get_queryset(self):
+        query = self.request.GET.get("q")
+        if query:
+            return Stocks.objects.filter(
+                Q(product__product_name__icontains=query) #| Q(product__product_name__icontains=query)
+            )
+        else:
+            return Stocks.objects.none() # Or `.all()` if you want to show everything by default
+
+
+'''
+    def get_queryset(self):
+        return Stocks.objects.filter(
+
+            Q(product__product_name__icontains="Refrigator") | Q(product__product_name__icontains="Washing")
+        )
+'''
+    #def get_queryset(self):
+       # return  Stocks.objects.filter(product__product_name__icontains="Refrigator")
+    #queryset =  Stocks.objects.filter(product__product_name__icontains="Refrigator") #the product__ the Foreign key relation between Stocks and Product models #prodduct_name__ is from the Product model
 
 
 
