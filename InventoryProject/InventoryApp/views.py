@@ -5,18 +5,37 @@ from django.forms import DecimalField
 from django.shortcuts import render
 
 from django.contrib import messages
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from .models import Customer, Category, Supplier, Product, Stocks, Order
-from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm
+from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm
 
-from django.views.generic import TemplateView, CreateView, ListView
+from django.views.generic import TemplateView, CreateView, ListView, DetailView
 
 from django.db.models import Sum, F, Q
 
 
 # Create your views here.
 
+class OrderDisplay(ListView):
+    model = Order
+    template_name = 'order_display.html'
+    context_object_name = 'orders'
+
+
+
+class OrderAccept(CreateView):
+    model = Order
+    template_name = 'order.html'
+    form_class = OrderForm
+    success_url = reverse_lazy('home')
+
+    def get_initial(self):
+        initial = super().get_initial()
+        customer_id = self.request.GET.get('customer_id')
+        if customer_id:
+            initial['customer'] = customer_id  # Use customer ID here
+        return initial
 
 
 class SearchResultView(ListView):
@@ -113,7 +132,10 @@ class CustomerView(CreateView):
     model = Customer
     template_name = 'customer.html'
     form_class = CustomerForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('order')
+
+    def get_success_url(self):
+        return reverse('order-create') + f'?customer_id={self.object.pk}'
 
     def form_valid(self, form):
         messages.success(self.request,'Customer Added Successfully!')

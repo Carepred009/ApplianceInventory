@@ -1,3 +1,4 @@
+from audioop import reverse
 from decimal import Decimal
 from turtle import Turtle
 
@@ -16,7 +17,10 @@ class Customer(models.Model):
     address = models.TextField(max_length=255, blank=True,null=True)
 
     def __str__(self):
-        return self.first_name
+        return self.first_name +" "+ self.last_name
+
+    def get_absolute_url(self):
+        return reverse('order')
 
 class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
@@ -59,8 +63,9 @@ class Order(models.Model):
     order_id = models.AutoField(primary_key = True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
     product =models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
-    order_date = models.DateTimeField(auto_now_add=False)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    order_date = models.DateTimeField(auto_now_add=True)
+    order_quantity = models.IntegerField(blank=True,null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True )
 
     def __str__(self):

@@ -1,8 +1,9 @@
 from django.db.models import F, Sum, DecimalField
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from  django.dispatch import receiver
 
-from . models import Product, Stocks
+from .models import Product, Stocks, Customer,Order
+
 
 @receiver(post_save, sender=Product)
 def create_stocks_model(sender, instance, created, **kwargs):
@@ -17,9 +18,27 @@ def create_stocks_model(sender, instance, created, **kwargs):
             supplier=instance.supplier,
            actual_count = total_quantity,
             total_price = total_price_per_insert,
-
         )
+'''
+@receiver(post_save,sender=Customer)
+def create_order_fullname(sender, instance,created, **kwargs):
+    if created:
+            #call the price from product
+        # total_amount = Order.objects.aggregate()
 
+        Order.objects.create(
+            customer = instance,   # the inputed  first_name will be the  inserted into customer in Order model
+        )
+'''
+
+
+@receiver(post_save, sender=Product)
+def create_order_quantity(sendder, intance,created, **kwargs):
+    if created:
+        total_amount = Product.objects.aggregate()
+        Order.objects.create(
+            amount = total_amount
+        )
 
 
 '''
