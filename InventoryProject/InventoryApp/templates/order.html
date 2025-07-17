@@ -8,10 +8,37 @@
       <form method="POST">
         {%csrf_token%}
         {{form.as_p}}
+
+          <pre>product_prices: {{ product_prices }}</pre>
         <button class="btn btn-primary" type="submit">SUBMIT</button>
 
       </form>
     </div>
 </div>
+{% block scripts %}
+
+    {{ product_prices|json_script:"product-data" }}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const productPrices = JSON.parse(document.getElementById('product-data').textContent);
+        const productSelect = document.getElementById('product-select');
+        const quantityInput = document.getElementById('quantity-input');
+        const amountField = document.getElementById('amount-field');
+
+        function updateAmount() {
+            const productId = productSelect.value;
+            const quantity = parseInt(quantityInput.value) || 0;
+            const price = productPrices[productId] || 0;
+            amountField.value = (price * quantity).toFixed(2);
+        }
+
+        productSelect.addEventListener('change', updateAmount);
+        quantityInput.addEventListener('input', updateAmount);
+    });
+</script>
+{% endblock %}
+
 
 {%endblock%}

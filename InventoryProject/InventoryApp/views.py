@@ -37,6 +37,17 @@ class OrderAccept(CreateView):
             initial['customer'] = customer_id  # Use customer ID here
         return initial
 
+    def get_context_data(self, **kwargs): # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
+        context = super().get_context_data(**kwargs)# # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
+        context['product_prices'] = {p.product_id: float(p.price) for p in Product.objects.all()} # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
+        return context
+
+
+    def form_valid(self, form):
+        product = form.cleaned_data['product']
+        quantity = form.cleaned_data['order_quantity']
+        form.instance.amount = product.price * quantity
+        return super().form_valid(form)
 
 class SearchResultView(ListView):
     model = Stocks

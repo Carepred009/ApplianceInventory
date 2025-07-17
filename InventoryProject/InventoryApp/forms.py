@@ -58,13 +58,13 @@ class ProductForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ('customer','product','order_quantity','amount','user')
+        fields = ['customer','product','order_quantity','amount','user']
 
         widgets ={
             'customer':forms.Select(attrs={'class':'form-control'}),
-            'product':forms.Select(attrs={'class':'form-control'}),
+            'product':forms.Select(attrs={'class':'form-control','id': 'product-select'}),
             #'order_date':forms.DateTimeInput(attrs={'type':'datetime-local'}), dili na ipas display sa template
-            'order_quantity':forms.NumberInput(attrs={'class':'form-control','minx':1,'max':'10000'}),
-            'amount': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 1000000}),
+            'order_quantity':forms.NumberInput(attrs={'class':'form-control','minx':1,'max':'10000','id': 'quantity-input'}),# 'id': 'quantity-input'
+            'amount': forms.NumberInput(attrs={'class': 'form-control','readonly': 'readonly','id': 'amount-field'}), #'readonly': 'readonly','id': 'amount-field'
 
         }
