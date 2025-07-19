@@ -1,6 +1,8 @@
+from tkinter.font import names
+
 from django.urls import path
 
-from .views import BaseView, CustomerView, CategoryView, SupplierView, ProductView ,StocksView,SearchResultView,OrderAccept,OrderDisplay
+from .views import BaseView, CustomerView, CategoryView, SupplierView, ProductView ,StocksView,SearchResultView,OrderAccept,OrderDisplay, SelectProductView,UpdateProductView
 
 from django.contrib.auth import views as auth_views
 
@@ -19,5 +21,8 @@ urlpatterns = [
     path('search_result/',SearchResultView.as_view(), name="search"),
 
     path('order/', OrderAccept.as_view(), name='order-create'),
-    path('order_display/',OrderDisplay.as_view(), name="order_display")
+    path('order_display/',OrderDisplay.as_view(), name="order_display"),
+
+    path('select_product/',SelectProductView.as_view(), name="select_product"),
+    path('update_product/<int:pk>/', UpdateProductView.as_view(), name="update_product")
 ]

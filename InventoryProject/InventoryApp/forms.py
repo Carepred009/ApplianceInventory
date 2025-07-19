@@ -40,6 +40,20 @@ class SupplierForm(forms.ModelForm):
             'address':forms.Textarea(attrs={'class':'form-control','placeholder':'Supplier Address'})
         }
 
+class ProductUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['product_name','product_description','quantity','price','category','supplier','product_image']  # only include fields you want updated
+
+        widgets = {
+            'product_name':forms.TextInput(attrs={'class':'form-control','readonly': 'readonly'}), # 'readonly': 'readonly' prevent from editing while updating some fields
+            'product_description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Product Description'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 10000}),  # ✅ Correct
+            'category': forms.Select(attrs={'class': 'form-control'}),
+            'supplier': forms.Select(attrs={'class': 'form-control'}),
+            'transaction_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product

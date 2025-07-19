@@ -19,6 +19,9 @@ def create_stocks_model(sender, instance, created, **kwargs):
            actual_count = total_quantity,
             total_price = total_price_per_insert,
         )
+
+
+
 '''
 @receiver(post_save,sender=Customer)
 def create_order_fullname(sender, instance,created, **kwargs):
@@ -31,7 +34,7 @@ def create_order_fullname(sender, instance,created, **kwargs):
         )
 '''
 
-
+'''
 @receiver(post_save, sender=Product)
 def create_order_quantity(sendder, intance,created, **kwargs):
     if created:
@@ -39,7 +42,7 @@ def create_order_quantity(sendder, intance,created, **kwargs):
         Order.objects.create(
             amount = total_amount
         )
-
+'''
 
 '''
 @receiver(post_save, sender=Product)

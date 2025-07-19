@@ -8,6 +8,8 @@ from django.db import models
 
 # Create your models here.
 
+
+
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key = True)
     first_name = models.CharField(max_length=255)
@@ -72,8 +74,6 @@ class Order(models.Model):
         return (f"{self.customer} {self.product}")
 
 
-
-
 class Stocks(models.Model):
     stocks_id = models.AutoField(primary_key = True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
@@ -86,3 +86,6 @@ class Stocks(models.Model):
         return f"{self.actual_count}"
 
 
+class Per_product(models.Model):
+        per_product_id = models.AutoField(primary_key = True)
+        per_product = models.CharField(max_length=255,)

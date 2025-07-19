@@ -8,14 +8,50 @@ from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 
 from .models import Customer, Category, Supplier, Product, Stocks, Order
-from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm
+from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm,ProductUpdateForm
 
-from django.views.generic import TemplateView, CreateView, ListView, DetailView
+from django.views.generic import TemplateView, CreateView, ListView, DetailView,UpdateView
 
 from django.db.models import Sum, F, Q
 
 
 # Create your views here.
+
+
+
+
+class UpdateCustomer(UpdateView):
+    model = Customer
+
+
+class SelectProductView(ListView):
+    model = Product
+    template_name = 'select_product.html'
+    context_object_name = 'products'
+
+class UpdateProductView(UpdateView):
+    model = Product
+    template_name = 'update_product.html'
+    form_class = ProductUpdateForm
+    success_url = reverse_lazy('home')
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['product_description'] = ''  # clear the price
+        initial['quantity'] = ''  # clear the quantity
+        initial['price'] = ''  # clear the quantity  The purpose this function is display the Form but empty to avoid update error
+        initial['category'] = ''
+        initial['supplier'] = ''
+        initial['product_image'] = ''
+
+        return initial
+
+  # 'product_name','product_description','quantity','price','category','supplier','product_image'
+
+
+
+
+
 
 class OrderDisplay(ListView):
     model = Order
@@ -78,7 +114,7 @@ class SearchResultView(ListView):
 
 class StocksView(ListView):
     model = Stocks
-    template_name = 'stocks.html'
+    template_name = 'stocks_movement.html'
     context_object_name = 'stocks'
 
 
