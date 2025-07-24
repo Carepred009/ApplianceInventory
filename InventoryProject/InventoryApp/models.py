@@ -5,6 +5,8 @@ from turtle import Turtle
 from django.contrib.auth.models import User
 
 from django.db import models
+from django.db.models import ForeignKey
+
 
 # Create your models here.
 
@@ -42,10 +44,17 @@ class Supplier(models.Model):
     def __str__(self):
         return self.supplier_name
 
+class ProductName(models.Model):
+    product_name_id = models.AutoField(primary_key = True)
+    product_name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.product_name
+
 
 class Product(models.Model):
     product_id = models.AutoField(primary_key = True)
-    product_name = models.CharField(max_length=255)
+    product_name = models.ForeignKey(ProductName, on_delete=models.CASCADE, null=True, blank=True)
     product_description = models.TextField(max_length=255)
     quantity = models.IntegerField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -57,7 +66,7 @@ class Product(models.Model):
 
 
     def __str__(self):
-        return (f"{self.product_name} ,{self.quantity}")
+        return (f"{self.product_name}")
 
 
 
@@ -76,16 +85,13 @@ class Order(models.Model):
 
 class Stocks(models.Model):
     stocks_id = models.AutoField(primary_key = True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True) # Do not change. THe product name in stocks will disappear
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, null=True, blank=True)
     actual_count = models.IntegerField(blank=True,null=True)
-    total_price = models.DecimalField(max_digits=10, decimal_places=3, blank=True, null=True)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
 
     def __str__(self):
         return f"{self.actual_count}"
 
 
-class Per_product(models.Model):
-        per_product_id = models.AutoField(primary_key = True)
-        per_product = models.CharField(max_length=255,)

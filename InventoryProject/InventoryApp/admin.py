@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Customer,Category,Supplier, Product, Order,Stocks
+from .models import Customer,Category,Supplier, Product, Order,Stocks,ProductName
 
 # Register your models here.
 
@@ -10,3 +10,4 @@ admin.site.register(Supplier)
 admin.site.register(Product)
 admin.site.register(Order)
 admin.site.register(Stocks)
+admin.site.register(ProductName)

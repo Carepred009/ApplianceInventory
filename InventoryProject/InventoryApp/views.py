@@ -8,27 +8,88 @@ from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 
 from .models import Customer, Category, Supplier, Product, Stocks, Order
-from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm,ProductUpdateForm
+from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm  #StockArrivalForm #ProductUpdateForm,
 
-from django.views.generic import TemplateView, CreateView, ListView, DetailView,UpdateView
+from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, FormView
 
 from django.db.models import Sum, F, Q
 
 
 # Create your views here.
-
-
-
-
 class UpdateCustomer(UpdateView):
     model = Customer
+'''
+class StockArrivalView(FormView):
+    template_name = 'new_product.html'
+    form_class = StockArrivalForm
+    success_url = reverse_lazy('stocks')  # adjust
 
+    def form_valid(self, form):
+        product = form.cleaned_data['product']
+        qty = form.cleaned_data['quantity']
+        supplier = form.cleaned_data['supplier']
+        price = form.cleaned_data['price']
 
+        # Update the product's quantity
+        product.quantity += qty
+        product.save()
+
+        # Create a Stock log (Stock model)
+        Stocks.objects.create(
+            product=product,
+            actual_count=qty,
+            total_price= qty * price,
+            supplier=supplier
+        )
+        print("THIS IS FROM StockArrivalView(FormView)")
+        return super().form_valid(form)
+'''
+
+'''
 class SelectProductView(ListView):
     model = Product
     template_name = 'select_product.html'
     context_object_name = 'products'
+'''
+'''
+class StockArrivalView(FormView):
+    template_name = 'new_product.html'
+    form_class = StockArrivalForm
+    success_url = reverse_lazy('stocks')
 
+    def form_valid(self, form):
+        product = form.cleaned_data['product']
+        qty = form.cleaned_data['quantity']
+        supp = form.cleaned_data['supplier']
+        price = form.cleaned_data['price']
+
+
+
+        Product.objects.create(
+           product_name = product,
+           quantity = qty,
+           supplier = supp,
+           price = price,
+
+        )
+        print("Product object FROM FROM")
+        # 1. Update product quantity
+        # product.price = price
+       # product.quantity += qty
+       # product.save()
+
+    # 2. Log in the Stocks model
+        Stocks.objects.create(
+            product=product,
+            supplier=supp,  # pwede sab product.supplier If we want to name the supplier as is
+            actual_count=product.quantity,
+            total_price=qty * price  # qty * product.price  we can use this if we dont t
+        )
+        return super().form_valid(form)
+        print("Stocks object FROM FROM")
+'''
+
+'''
 class UpdateProductView(UpdateView):
     model = Product
     template_name = 'update_product.html'
@@ -48,8 +109,7 @@ class UpdateProductView(UpdateView):
 
   # 'product_name','product_description','quantity','price','category','supplier','product_image'
 
-
-
+'''
 
 
 
@@ -57,8 +117,6 @@ class OrderDisplay(ListView):
     model = Order
     template_name = 'order_display.html'
     context_object_name = 'orders'
-
-
 
 class OrderAccept(CreateView):
     model = Order
@@ -92,30 +150,25 @@ class SearchResultView(ListView):
     def get_queryset(self):
         query = self.request.GET.get("q")
         if query:
-            return Stocks.objects.filter(
-                Q(product__product_name__icontains=query) #| Q(product__product_name__icontains=query)
+            return Stocks.objects.filter(                   # Not working if you want to search is converted to foreign key
+                Q(product__product_name__product_name__icontains=query) | Q(supplier__supplier_name__icontains=query)  # FieldError at /inventory/search_result/ #Unsupported lookup 'icontains' for ForeignKey or join on the field not permitted.
             )
         else:
             return Stocks.objects.none() # Or `.all()` if you want to show everything by default
-
-
-'''
-    def get_queryset(self):
-        return Stocks.objects.filter(
-
-            Q(product__product_name__icontains="Refrigator") | Q(product__product_name__icontains="Washing")
-        )
-'''
-    #def get_queryset(self):
-       # return  Stocks.objects.filter(product__product_name__icontains="Refrigator")
-    #queryset =  Stocks.objects.filter(product__product_name__icontains="Refrigator") #the product__ the Foreign key relation between Stocks and Product models #prodduct_name__ is from the Product model
-
 
 
 class StocksView(ListView):
     model = Stocks
     template_name = 'stocks_movement.html'
     context_object_name = 'stocks'
+
+class SpecifiedProductView(DetailView):
+    model = Stocks
+    template_name = 'specified_product.html'
+    context_object_name = 'products'
+
+
+
 
 
 
@@ -130,7 +183,7 @@ class ProductView(CreateView):
         price = form.cleaned_data.get('price')
         total = quantity * price
         form.instance.sum_per_transaction = total  # You called it sum_per_transaction in model
-
+        #Make sure how the hell is save into the the model an database
         # Terminal print
         print(f"[DEBUG] Creating product: {form.cleaned_data.get('product_name')}")
         print(f"[DEBUG] Quantity: {quantity}, Price: {price}")
@@ -144,6 +197,7 @@ class ProductView(CreateView):
     def form_invalid(self, form):
         messages.error(self.request, 'Error On Saving!')
         return super().form_invalid(form)
+
 
 class SupplierView(CreateView):
     model = Supplier

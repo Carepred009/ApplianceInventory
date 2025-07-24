@@ -8,12 +8,13 @@
                     <thead>
                     <tr>
                         <th>Product</th>
-                        <th>Total Count of Stocks</th>
+                        <th>Total Count of The Product</th>
                           <th>Supplier</th>
                          <th>Date of Arrival</th>
                         <th>Product Image</th>
                         <th>Product Price per pc  </th>
-                        <th>Actual Count of Stocks</th>
+                        <th> SUM per Transaction</th>
+                        <th>Total Count of ALL Stocks in Warehouse</th>
                         <th>Total amount of All stocks</th>
 
                     </tr>
@@ -22,7 +23,7 @@
                     {%for stock in stocks%}
                         <tr>
                             <td>{{stock.product.product_name}}</td>
-                            <td>{{stock.product.quantity}}</td>
+                            <td>{{stock.product.quantity}} ACTUAL count of Product</td>
                             <td>{{stock.supplier}}</td>
                             <td>{{stock.product.transaction_date}}</td>
                               <td> {% if stock.product.product_image %}
@@ -30,8 +31,10 @@
                            {% else %}
                               <p>No image available for {{ stock.product.product_name }}</p>
                              {% endif %}</td>
+
                             <td>{{stock.product.price}}</td>
-                            <td>{{stock.actual_count}}</td>
+                            <td>{{stock.product.sum_per_transaction}}</td>
+                            <td>{{stock.actual_count}} Actual count of All stock</td>
                             <td>{{stock.total_price}}</td>
                         </tr>
                           {%endfor%}

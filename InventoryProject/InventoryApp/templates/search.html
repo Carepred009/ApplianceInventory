@@ -7,7 +7,7 @@
    {% if results %}
     <ul>
         {% for stock in results %}
-            <li>{{ stock.product.product_name }} - {{ stock.actual_count }}</li>
+           <a href="{% url 'search_stock' stock.stocks_id %} "> <li> {{ stock.stocks_id }}{{ stock.product.product_name }} - {{ stock.actual_count }} -{{stock.supplier.supplier_name}}</li></a>
         {% endfor %}
     </ul>
 {% else %}

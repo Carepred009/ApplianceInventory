@@ -1,0 +1,15 @@
+{%extends  'base.html'%}
+
+
+{%block content%}
+
+<div class="container">
+  <div class="form-group">
+    <p>IF your using DetailView Do not use for loop like ListView </p>
+      <p>If you want to ge the value of the attibute but its in Two Relational Table. just to the contet_object_name.2ndmodelattributename.firstmodelattributename </p>
+        {{products.product.product_name}}| {{products.supplier.supplier_name}} | {{products.product.quantity}} {{products.product.price}}
+
+  </div>
+</div>
+
+{%endblock%}

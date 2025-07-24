@@ -39,7 +39,7 @@ class SupplierForm(forms.ModelForm):
             'email':forms.EmailInput(attrs={'class':'form-control','placeholder':'Suppliers Email'}),
             'address':forms.Textarea(attrs={'class':'form-control','placeholder':'Supplier Address'})
         }
-
+'''
 class ProductUpdateForm(forms.ModelForm):
     class Meta:
         model = Product
@@ -53,6 +53,25 @@ class ProductUpdateForm(forms.ModelForm):
             'supplier': forms.Select(attrs={'class': 'form-control'}),
             'transaction_date': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
+'''
+'''
+class StockArrivalForm(forms.Form):
+    product = forms.ModelChoiceField(queryset=Product.objects.all())
+    quantity = forms.IntegerField(min_value=1)
+    supplier = forms.ModelChoiceField(queryset=Supplier.objects.all())
+    price = forms.DecimalField(max_digits=10,decimal_places=2, widget=forms.NumberInput(attrs={'steps':'0.01'})) # Optional: for decimal step
+'''
+
+
+'''
+#this form is for new Arrival of Products
+class StockArrivalForm(forms.Form):
+    product =  forms.ModelChoiceField(queryset=Product.objects.all()) # remember that this  from the Foreign key
+    quantity = forms.IntegerField(min_value=1, label='Quantity Arrive')
+    supplier = forms.ModelChoiceField(queryset=Supplier.objects.all()) # remember that this  from the Foreign key
+    price = forms.DecimalField(max_digits=10,decimal_places=2, widget=forms.NumberInput(attrs={'steps':'0.01'})) # Optional: for decimal step
+'''
+
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -60,7 +79,7 @@ class ProductForm(forms.ModelForm):
         fields = ('product_name','product_description','quantity','price','category','supplier','product_image')
 
         widgets = {
-            'product_name':forms.TextInput(attrs={'class':'form-control','placeholder':'Product Name'}),
+            'product_name':forms.Select(attrs={'class':'form-control','placeholder':'Product Name'}),
             'product_description':forms.TextInput(attrs={'class':'form-control','placeholder':'Product Description'}),
             'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 10000}),             # ✅ Correct
             'category':forms.Select(attrs={'class':'form-control'}),
