@@ -1,8 +1,9 @@
 from itertools import product
+from lib2to3.fixes.fix_input import context
 from msilib.schema import ListView
 
 from django.forms import DecimalField
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
@@ -131,17 +132,31 @@ class OrderAccept(CreateView):
             initial['customer'] = customer_id  # Use customer ID here
         return initial
 
+    #get the price of the selected product
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Example: Get specific product (e.g., latest one)
+        specific_product = Product.objects.last()
+        context['specific_product'] = specific_product
+
+    def form_valid(self, form):
+         # get the current User is use model by the instance user
+        form.instance.user = self.request.user  # Only 1 form_valid() shoud be use
+
+           # Calculate the Total amount
+        product = form.cleaned_data['product']
+        quantity = form.cleaned_data['order_quantity']
+        form.instance.amount = product.price * quantity
+        return super().form_valid(form)
+
+
+
     def get_context_data(self, **kwargs): # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         context = super().get_context_data(**kwargs)# # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         context['product_prices'] = {p.product_id: float(p.price) for p in Product.objects.all()} # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         return context
 
 
-    def form_valid(self, form):
-        product = form.cleaned_data['product']
-        quantity = form.cleaned_data['order_quantity']
-        form.instance.amount = product.price * quantity
-        return super().form_valid(form)
 
 class SearchResultView(ListView):
     model = Stocks

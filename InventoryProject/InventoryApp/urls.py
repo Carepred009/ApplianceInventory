@@ -23,7 +23,9 @@ urlpatterns = [
     path('search_result/',SearchResultView.as_view(), name="search"),
 
     path('order/', OrderAccept.as_view(), name='order-create'),
+
     path('order_display/',OrderDisplay.as_view(), name="order_display"),
+
     path('search_stocks/<int:pk>', SpecifiedProductView.as_view() ,name="search_stock")
 
     #path('select_product/',SelectProductView.as_view(), name="select_product"),

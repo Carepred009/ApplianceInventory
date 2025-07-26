@@ -10,6 +10,14 @@
         {{form.as_p}}
 
           <pre>product_prices: {{ product_prices }}</pre>
+
+            <p id="price-display">Price: 0</p>
+
+         <!-- Amount (readonly) -->
+              <p>Total: <input type="text" id="amount-field" readonly></p>
+
+
+          <p>LOGGED IN AS: {{request.user.username}}</p>
         <button class="btn btn-primary" type="submit">SUBMIT</button>
 
       </form>
@@ -23,15 +31,20 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const productPrices = JSON.parse(document.getElementById('product-data').textContent);
-        const productSelect = document.getElementById('product-select');
-        const quantityInput = document.getElementById('quantity-input');
-        const amountField = document.getElementById('amount-field');
+        const productSelect = document.getElementById('product-select');  // 'product-select' is the id name the  forms.py
+        const quantityInput = document.getElementById('quantity-input'); // 'quantity-input' is the id name in the forms.py
+        const amountField = document.getElementById('amount-field');    //  'amount-field' is the id name in the forms.py
+
+         const priceDisplay = document.getElementById('price-display');
+
 
         function updateAmount() {
             const productId = productSelect.value;
             const quantity = parseInt(quantityInput.value) || 0;
             const price = productPrices[productId] || 0;
             amountField.value = (price * quantity).toFixed(2);
+
+              priceDisplay.textContent = "Price: " + price;
         }
 
         productSelect.addEventListener('change', updateAmount);
