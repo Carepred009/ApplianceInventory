@@ -117,13 +117,16 @@ class UpdateProductView(UpdateView):
 class OrderDisplay(ListView):
     model = Order
     template_name = 'order_display.html'
-    context_object_name = 'orders'
+    #context_object_name = 'orders'  if Using pagination remove this and use the Django Built in page_obj
+    paginate_by = 6 # Show 10 products per page
+
 
 class OrderAccept(CreateView):
     model = Order
     template_name = 'order.html'
     form_class = OrderForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('order_display')
+
 
     def get_initial(self):
         initial = super().get_initial()

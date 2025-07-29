@@ -1,19 +1,50 @@
 {%extends 'base.html'%}
-
-
 {%block content%}
-
 <div class="container">
     <div class="form-group">
-      {%for order in orders%}
-        {{order.customer.first_name}}<br>
-        {{order.product.product_name}}<br>
-        {{order.order_date}}<br>
-        {{order.order_quantity}}<br>
-       {{order.amount}}<br>
-       {{order.user}}<br> <br>
+        <table class="table  table-stripped">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                      <th>Product Name</th>
+                      <th>Order Date</th>
+                      <th>Order Quantity</th>
+                    <th>Order Price Per Piece</th>
+                      <th>Order Amount</th>
+                      <th>Personel</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+              {%for order in page_obj%}
+                <tr>
+                    <td>{{order.customer.first_name}}</td>
+                    <td>   {{order.customer.last_name}}</td>
+                    <td> {{order.product.product_name}}</td>
+                           <td>{{order.order_date}}</td>
+                           <td>{{order.order_quantity}}</td>
+                           <td> {{order.product.price}}</td>
+                           <td>{{order.amount}}</td>
+                        <td>  {{order.user}}</td>
+                </tr>
+             {%endfor%}
+            </tbody>
+        </table>
 
-      {%endfor%}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+</div>
+
+
     </div>
 </div>
 
