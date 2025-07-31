@@ -3,7 +3,7 @@ from lib2to3.fixes.fix_input import context
 from msilib.schema import ListView
 
 from django.forms import DecimalField
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
@@ -112,13 +112,36 @@ class UpdateProductView(UpdateView):
 
 '''
 
+class CheckOutView(DetailView):
+    model = Order
+    template_name = 'check_out_details.html'
+    context_object_name = 'checkouts'
 
+    def post(self, request, *args, **kwargs):
+        order = self.get_object()
+        product = order.product
+
+        # Prevent negative stock
+        if product.quantity < order.order_quantity:
+            # You can show a message instead of redirect if using messages framework
+            return redirect('order_display')
+
+        # Deduct stock
+        product.quantity -= order.order_quantity
+        product.save()
+
+        # (Optional) Mark as confirmed — you might want to add a "status" field later
+        # order.status = 'confirmed'
+        order.save()
+
+        return redirect('order_display')
 
 class OrderDisplay(ListView):
     model = Order
     template_name = 'order_display.html'
     #context_object_name = 'orders'  if Using pagination remove this and use the Django Built in page_obj
     paginate_by = 6 # Show 10 products per page
+
 
 
 class OrderAccept(CreateView):
@@ -178,16 +201,13 @@ class SearchResultView(ListView):
 class StocksView(ListView):
     model = Stocks
     template_name = 'stocks_movement.html'
-    context_object_name = 'stocks'
+    #context_object_name = 'stocks'  #remove this if you want pagination and use the built-in  page_obj
+    paginate_by = 5 #show 5 rows of result per page number
 
 class SpecifiedProductView(DetailView):
     model = Stocks
     template_name = 'specified_product.html'
     context_object_name = 'products'
-
-
-
-
 
 
 class ProductView(CreateView):

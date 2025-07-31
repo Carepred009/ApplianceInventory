@@ -1,0 +1,29 @@
+{%extends 'base.html'%}
+
+
+{%block content%}
+
+<div class="container">
+    <div class="form-group">
+        <form method="POST">
+          {%csrf_token%}
+
+
+            <p>Order ID : {{checkouts.order_id}} </p>
+         <p>Customer Name : {{checkouts.customer}}</p>  <br>
+          <p>Product Name : {{checkouts.product.product_name}} <br>
+            <p>Order Date: {{checkouts.order_date}}</p> <br>
+            <p> Order Quantity : {{checkouts.order_quantity}}</p> <br>
+            <p>Total Amount : {{checkouts.amount}}</p> <br>
+            <p> Price per Product : {{checkouts.product.price}} </p> <br>
+           <p>System User : {{checkouts.user}}</p> <br>
+
+
+
+          <button class="btn btn-secondary">Confirm Order</button>
+
+        </form>
+    </div>
+</div>
+
+{%endblock%}

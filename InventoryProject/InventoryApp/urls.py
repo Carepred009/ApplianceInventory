@@ -2,7 +2,7 @@ from tkinter.font import names
 
 from django.urls import path
 
-from .views import (BaseView, CustomerView, CategoryView, SupplierView, ProductView ,StocksView,SearchResultView,OrderAccept,OrderDisplay, SpecifiedProductView #StockArrivalView
+from .views import (BaseView, CustomerView, CategoryView, SupplierView, ProductView ,StocksView,SearchResultView,OrderAccept,OrderDisplay, SpecifiedProductView,CheckOutView #StockArrivalView
                  )  #SelectProductView, UpdateProductView   StockArrivalView
 
 
@@ -26,11 +26,13 @@ urlpatterns = [
 
     path('order_display/',OrderDisplay.as_view(), name="order_display"),
 
-    path('search_stocks/<int:pk>', SpecifiedProductView.as_view() ,name="search_stock")
+    path('search_stocks/<int:pk>', SpecifiedProductView.as_view() ,name="search_stock"),
 
     #path('select_product/',SelectProductView.as_view(), name="select_product"),
    # path('update_product/<int:pk>/', UpdateProductView.as_view(), name="update_product"),
 
     #path('new_arrival/',StockArrivalView.as_view(), name="stock_arrival")
+
+    path('check_out/<int:pk>/',CheckOutView.as_view(), name="checkout")
 
 ]
