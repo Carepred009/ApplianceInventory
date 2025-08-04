@@ -1,7 +1,7 @@
 from django import forms
 from unicodedata import category
 
-from .models import Customer, Category, Supplier, Product, Order
+from .models import Customer, Category, Supplier, Product, Order, Checkout
 
 
 class CustomerForm(forms.ModelForm):
@@ -71,6 +71,8 @@ class StockArrivalForm(forms.Form):
     supplier = forms.ModelChoiceField(queryset=Supplier.objects.all()) # remember that this  from the Foreign key
     price = forms.DecimalField(max_digits=10,decimal_places=2, widget=forms.NumberInput(attrs={'steps':'0.01'})) # Optional: for decimal step
 '''
+
+
 
 
 class ProductForm(forms.ModelForm):

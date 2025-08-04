@@ -1,14 +1,16 @@
 from itertools import product
 from lib2to3.fixes.fix_input import context
 from msilib.schema import ListView
+from subprocess import check_output
 
+from django.contrib.messages.apps import update_level_tags
 from django.forms import DecimalField
 from django.shortcuts import render, get_object_or_404, redirect
 
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 
-from .models import Customer, Category, Supplier, Product, Stocks, Order
+from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout
 from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm  #StockArrivalForm #ProductUpdateForm,
 
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, FormView
@@ -112,6 +114,9 @@ class UpdateProductView(UpdateView):
 
 '''
 
+
+
+
 class CheckOutView(DetailView):
     model = Order
     template_name = 'check_out_details.html'
@@ -121,20 +126,46 @@ class CheckOutView(DetailView):
         order = self.get_object()
         product = order.product
 
+        # Get Stock object related to the product
+        stock = get_object_or_404(Stocks, product=product)
+
         # Prevent negative stock
         if product.quantity < order.order_quantity:
             # You can show a message instead of redirect if using messages framework
+            messages.error(self.request,"No more stocks")
             return redirect('order_display')
 
-        # Deduct stock
+        #Adjust the total amount of the current product count and actual count
+
+       # product.sum_per_transaction -= order.amount
+       # stock.save(update_fields=['total_price'])
+
+        # Deduct product stock
         product.quantity -= order.order_quantity
         product.save()
+
+
+        #Insert into Checkout model after Clicking Chekcout button
+        Checkout.objects.create(
+            product_name = order.product.product_name, # careful: you have ProductName FK
+            customer_name = order.customer,
+            product_price = order.product,
+            checkout_total = order.amount
+
+        )
+        # Redirect to sucess page
+        #return  redirect('')
+
+        # Sync Stock.actual_count with new product quantity
+        stock.actual_count = product.quantity
+        stock.save(update_fields=['actual_count'])
+
 
         # (Optional) Mark as confirmed — you might want to add a "status" field later
         # order.status = 'confirmed'
         order.save()
-
         return redirect('order_display')
+
 
 class OrderDisplay(ListView):
     model = Order

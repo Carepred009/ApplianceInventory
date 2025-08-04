@@ -3,6 +3,8 @@ from decimal import Decimal
 from turtle import Turtle
 
 from django.contrib.auth.models import User
+from django.contrib.messages.storage.cookie import bisect_keep_left
+from django.contrib.staticfiles.views import serve
 
 from django.db import models
 from django.db.models import ForeignKey
@@ -82,6 +84,16 @@ class Order(models.Model):
     def __str__(self):
         return (f"{self.customer} {self.product}")
 
+class Checkout(models.Model):
+    checkout_id = models.AutoField(primary_key = True)
+    product_name = models.ForeignKey(ProductName, on_delete=models.CASCADE, null=True,blank=True)
+    customer_name = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
+    product_price = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
+    checkout_total = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    checkout_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.product_name)
 
 class Stocks(models.Model):
     stocks_id = models.AutoField(primary_key = True)
