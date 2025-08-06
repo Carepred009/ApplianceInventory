@@ -10,7 +10,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 
-from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout
+from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout, IncomingStocks
 from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm  #StockArrivalForm #ProductUpdateForm,
 
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, FormView
@@ -114,7 +114,12 @@ class UpdateProductView(UpdateView):
 
 '''
 
+class CheckoutDisplayView(ListView):
+    model = Checkout
+    template_name = 'display_checkout.html'
+    context_object_name = 'checkouts'
 
+    
 
 
 class CheckOutView(DetailView):
@@ -150,15 +155,16 @@ class CheckOutView(DetailView):
             product_name = order.product.product_name, # careful: you have ProductName FK
             customer_name = order.customer,
             product_price = order.product,
-            checkout_total = order.amount
+            checkout_total = order.amount,
+            checkout_quantity =  order.order_quantity
 
         )
         # Redirect to sucess page
         #return  redirect('')
 
         # Sync Stock.actual_count with new product quantity
-        stock.actual_count = product.quantity
-        stock.save(update_fields=['actual_count'])
+        #stock.actual_count = product.quantity
+        #stock.save(update_fields=['actual_count'])
 
 
         # (Optional) Mark as confirmed — you might want to add a "status" field later
@@ -234,6 +240,11 @@ class StocksView(ListView):
     template_name = 'stocks_movement.html'
     #context_object_name = 'stocks'  #remove this if you want pagination and use the built-in  page_obj
     paginate_by = 5 #show 5 rows of result per page number
+
+class IncomingStocksView(ListView):
+    model =  IncomingStocks
+    template_name = 'incoming_stocks.html'
+    context_object_name = 'incoming'
 
 class SpecifiedProductView(DetailView):
     model = Stocks

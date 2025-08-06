@@ -1,0 +1,46 @@
+{%extends 'base.html'%}
+
+
+{% block content %}
+
+<div class="container">
+     <table class="table table-stripped">
+         <thead>
+            <tr>
+                <th>Check OUT ID</th>
+                  <th>Product Name</th>
+                  <th>Customer</th>
+                  <th>Quantity</th>
+                  <th>Price per Piece</th>
+                  <th>Total</th>
+                  <th>Date</th>
+
+            </tr>
+         </thead>
+         <tbody>
+         {%for checkout in checkouts%}
+            <tr>
+                <td>    {{checkout.checkout_id}}</td>
+                 <td>  {{checkout.product_name}} </td>
+                 <td>  {{checkout.customer_name}} </td>
+                   <td>  {{checkout.checkout_quantity}}</td>
+                 <td>{{checkout.product_price.price}}</td>
+                 <td> {{checkout.checkout_total}} </td>
+                 <td>  {{checkout.checkout_date}}</td>
+            </tr>
+
+            {%endfor%}
+         </tbody>
+     </table>
+
+</div>
+
+
+
+
+
+
+
+
+
+{%endblock%}

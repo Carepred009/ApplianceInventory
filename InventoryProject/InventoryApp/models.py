@@ -1,5 +1,6 @@
 from audioop import reverse
 from decimal import Decimal
+from itertools import product
 from turtle import Turtle
 
 from django.contrib.auth.models import User
@@ -11,8 +12,6 @@ from django.db.models import ForeignKey
 
 
 # Create your models here.
-
-
 
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key = True)
@@ -90,10 +89,12 @@ class Checkout(models.Model):
     customer_name = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True, blank=True)
     product_price = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
     checkout_total = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    checkout_quantity = models.IntegerField(blank=True, null=True)
     checkout_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 
     def __str__(self):
         return str(self.product_name)
+
 
 class Stocks(models.Model):
     stocks_id = models.AutoField(primary_key = True)
@@ -107,3 +108,10 @@ class Stocks(models.Model):
         return f"{self.actual_count}"
 
 
+class IncomingStocks(models.Model):
+    IncomingStocks_id = models.AutoField(primary_key=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.product)

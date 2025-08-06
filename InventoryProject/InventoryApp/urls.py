@@ -2,8 +2,9 @@ from tkinter.font import names
 
 from django.urls import path
 
-from .views import (BaseView, CustomerView, CategoryView, SupplierView, ProductView ,StocksView,SearchResultView,OrderAccept,OrderDisplay, SpecifiedProductView,CheckOutView #StockArrivalView
-                 )  #SelectProductView, UpdateProductView   StockArrivalView
+from .views import (BaseView, CustomerView, CategoryView, SupplierView, ProductView ,StocksView,SearchResultView,OrderAccept,OrderDisplay, SpecifiedProductView,CheckOutView,
+                    CheckoutDisplayView,IncomingStocksView
+                 )  #SelectProductView, UpdateProductView   StockArrivalView #StockArrivalView
 
 
 from django.contrib.auth import views as auth_views
@@ -33,6 +34,9 @@ urlpatterns = [
 
     #path('new_arrival/',StockArrivalView.as_view(), name="stock_arrival")
 
-    path('check_out/<int:pk>/',CheckOutView.as_view(), name="checkout")
+    path('check_out/<int:pk>/',CheckOutView.as_view(), name="checkout"),
+    path('checkout/',CheckoutDisplayView.as_view(), name="checkout_display"),
+
+    path('incoming/',IncomingStocksView.as_view(), name="incoming")
 
 ]

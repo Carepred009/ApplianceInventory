@@ -1,0 +1,15 @@
+{%extends 'base.html'%}
+
+
+{%block content%}
+<div class="container">
+  <div class="form-group">
+      {%for income in incoming%}
+
+        {{income.product.product_name}} <br>
+      {{income.supplier.supplier_name}} <br>
+      {{income.product.quantity}} <br>
+      {%endfor%}
+  </div>
+</div>
+{%endblock%}
