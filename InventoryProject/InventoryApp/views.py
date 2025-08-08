@@ -19,100 +19,31 @@ from django.db.models import Sum, F, Q
 
 
 # Create your views here.
+
+
+class SalesChartView(TemplateView):
+    template_name = 'sales_chart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Aggregate total quantity sold per product
+        sales_data = (
+            Checkout.objects
+            .values("product_name")
+            .annotate(total_sold = Sum("checkout_quantity"))
+            .order_by("product_name")
+        )
+
+        # Prepare data for Charts.js
+        context["labels"] = [item["product_name"] for item in sales_data]
+        context["data"] = [item["total_sold"] for item in sales_data]
+
+        return context
+
+
 class UpdateCustomer(UpdateView):
     model = Customer
-'''
-class StockArrivalView(FormView):
-    template_name = 'new_product.html'
-    form_class = StockArrivalForm
-    success_url = reverse_lazy('stocks')  # adjust
-
-    def form_valid(self, form):
-        product = form.cleaned_data['product']
-        qty = form.cleaned_data['quantity']
-        supplier = form.cleaned_data['supplier']
-        price = form.cleaned_data['price']
-
-        # Update the product's quantity
-        product.quantity += qty
-        product.save()
-
-        # Create a Stock log (Stock model)
-        Stocks.objects.create(
-            product=product,
-            actual_count=qty,
-            total_price= qty * price,
-            supplier=supplier
-        )
-        print("THIS IS FROM StockArrivalView(FormView)")
-        return super().form_valid(form)
-'''
-
-'''
-class SelectProductView(ListView):
-    model = Product
-    template_name = 'select_product.html'
-    context_object_name = 'products'
-'''
-'''
-class StockArrivalView(FormView):
-    template_name = 'new_product.html'
-    form_class = StockArrivalForm
-    success_url = reverse_lazy('stocks')
-
-    def form_valid(self, form):
-        product = form.cleaned_data['product']
-        qty = form.cleaned_data['quantity']
-        supp = form.cleaned_data['supplier']
-        price = form.cleaned_data['price']
-
-
-
-        Product.objects.create(
-           product_name = product,
-           quantity = qty,
-           supplier = supp,
-           price = price,
-
-        )
-        print("Product object FROM FROM")
-        # 1. Update product quantity
-        # product.price = price
-       # product.quantity += qty
-       # product.save()
-
-    # 2. Log in the Stocks model
-        Stocks.objects.create(
-            product=product,
-            supplier=supp,  # pwede sab product.supplier If we want to name the supplier as is
-            actual_count=product.quantity,
-            total_price=qty * price  # qty * product.price  we can use this if we dont t
-        )
-        return super().form_valid(form)
-        print("Stocks object FROM FROM")
-'''
-
-'''
-class UpdateProductView(UpdateView):
-    model = Product
-    template_name = 'update_product.html'
-    form_class = ProductUpdateForm
-    success_url = reverse_lazy('home')
-
-    def get_initial(self):
-        initial = super().get_initial()
-        initial['product_description'] = ''  # clear the price
-        initial['quantity'] = ''  # clear the quantity
-        initial['price'] = ''  # clear the quantity  The purpose this function is display the Form but empty to avoid update error
-        initial['category'] = ''
-        initial['supplier'] = ''
-        initial['product_image'] = ''
-
-        return initial
-
-  # 'product_name','product_description','quantity','price','category','supplier','product_image'
-
-'''
 
 class CheckoutDisplayView(ListView):
     model = Checkout

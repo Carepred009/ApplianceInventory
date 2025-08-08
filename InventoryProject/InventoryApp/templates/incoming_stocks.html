@@ -4,12 +4,39 @@
 {%block content%}
 <div class="container">
   <div class="form-group">
-      {%for income in incoming%}
 
-        {{income.product.product_name}} <br>
-      {{income.supplier.supplier_name}} <br>
-      {{income.product.quantity}} <br>
-      {%endfor%}
+      <table class="table table-stripped">
+          <thead>
+          <tr>
+
+              <th>Product name</th>
+              <th>Supplier Name</th>
+              <th>Quantity</th>
+              <th>Transaction Date</th>
+              <th>Price per piece</th>
+
+          </tr>
+          </thead>
+          <tbody>
+                {%for income in incoming%}
+            <tr>
+                <td>{{income.product.product_name}}</td>
+                <td>{{income.supplier.supplier_name}}</td>
+                <td>{{income.product.quantity}}</td>
+                <td>{{income.product.transaction_date}}</td>
+                <td>{{income.product.price}}</td>
+
+
+            </tr>
+           {%endfor%}
+          </tbody>
+      </table>
+
+
+
+
+
+
   </div>
 </div>
 {%endblock%}
