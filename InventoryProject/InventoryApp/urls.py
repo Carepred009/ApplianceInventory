@@ -35,8 +35,9 @@ urlpatterns = [
 
     #path('new_arrival/',StockArrivalView.as_view(), name="stock_arrival")
 
-    path('check_out/<int:pk>/',CheckOutView.as_view(), name="checkout"),
-    path('checkout/',CheckoutDisplayView.as_view(), name="checkout_display"),
+    path('check_out/<int:pk>/',CheckOutView.as_view(), name="checkout"), #This is DetailView
+
+    path('checkout/',CheckoutDisplayView.as_view(), name="checkout_display"), #this is ListView
 
     path('incoming/',IncomingStocksView.as_view(), name="incoming"),
 

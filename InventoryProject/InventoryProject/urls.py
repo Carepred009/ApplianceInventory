@@ -25,6 +25,9 @@ urlpatterns = [
     path('',include('InventoryApp.urls')),
     path('inventory/', include('InventoryApp.urls')),
 
+
+
+
     path('members/', include('django.contrib.auth.urls')),
     path('members/', include('members.urls')),
 

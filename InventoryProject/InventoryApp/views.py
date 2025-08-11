@@ -1,25 +1,13 @@
-from itertools import product
-from lib2to3.fixes.fix_input import context
-from msilib.schema import ListView
-from subprocess import check_output
 
-from django.contrib.messages.apps import update_level_tags
-from django.forms import DecimalField
 from django.shortcuts import render, get_object_or_404, redirect
-
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
-
 from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout, IncomingStocks
 from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm  #StockArrivalForm #ProductUpdateForm,
-
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, FormView
-
 from django.db.models import Sum, F, Q
 
-
 # Create your views here.
-
 
 class SalesChartView(TemplateView):
     template_name = 'sales_chart.html'
@@ -32,7 +20,7 @@ class SalesChartView(TemplateView):
             Checkout.objects
             .values("product_name")
             .annotate(total_sold = Sum("checkout_quantity"))
-            .order_by("product_name")
+            .order_by("checkout_date")
         )
 
         # Prepare data for Charts.js
@@ -49,8 +37,6 @@ class CheckoutDisplayView(ListView):
     model = Checkout
     template_name = 'display_checkout.html'
     context_object_name = 'checkouts'
-
-    
 
 
 class CheckOutView(DetailView):
@@ -72,14 +58,9 @@ class CheckOutView(DetailView):
             return redirect('order_display')
 
         #Adjust the total amount of the current product count and actual count
-
-       # product.sum_per_transaction -= order.amount
-       # stock.save(update_fields=['total_price'])
-
         # Deduct product stock
         product.quantity -= order.order_quantity
         product.save()
-
 
         #Insert into Checkout model after Clicking Chekcout button
         Checkout.objects.create(
@@ -90,17 +71,10 @@ class CheckOutView(DetailView):
             checkout_quantity =  order.order_quantity
 
         )
-        # Redirect to sucess page
-        #return  redirect('')
-
-        # Sync Stock.actual_count with new product quantity
-        #stock.actual_count = product.quantity
-        #stock.save(update_fields=['actual_count'])
-
-
-        # (Optional) Mark as confirmed — you might want to add a "status" field later
         # order.status = 'confirmed'
         order.save()
+        # Delete the order after checkout
+        order.delete()
         return redirect('order_display')
 
 
@@ -109,7 +83,6 @@ class OrderDisplay(ListView):
     template_name = 'order_display.html'
     #context_object_name = 'orders'  if Using pagination remove this and use the Django Built in page_obj
     paginate_by = 6 # Show 10 products per page
-
 
 
 class OrderAccept(CreateView):
@@ -143,13 +116,10 @@ class OrderAccept(CreateView):
         form.instance.amount = product.price * quantity
         return super().form_valid(form)
 
-
-
     def get_context_data(self, **kwargs): # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         context = super().get_context_data(**kwargs)# # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         context['product_prices'] = {p.product_id: float(p.price) for p in Product.objects.all()} # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         return context
-
 
 
 class SearchResultView(ListView):
