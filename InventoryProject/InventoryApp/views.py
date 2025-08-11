@@ -1,3 +1,4 @@
+from lib2to3.fixes.fix_input import context
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
@@ -141,6 +142,15 @@ class StocksView(ListView):
     template_name = 'stocks_movement.html'
     #context_object_name = 'stocks'  #remove this if you want pagination and use the built-in  page_obj
     paginate_by = 5 #show 5 rows of result per page number
+
+
+    #get the total or sum of all products in the Stocks model
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        total_quantity = Stocks.objects.aggregate(Sum('actual_count')) ['actual_count__sum'] or 0  # ['actual_count__sum'] or 0 add this to prevent display the model attribute
+        context['total_quantity'] = total_quantity
+        return  context
+
 
 class IncomingStocksView(ListView):
     model =  IncomingStocks

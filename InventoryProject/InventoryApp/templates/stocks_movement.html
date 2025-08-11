@@ -2,6 +2,9 @@
 
 {%block content%}
 
+<h1>THE TOTAL Stocks in Inventory: {{total_quantity}}</h1>
+
+
 <h1> Stocks Movement</h1>
         {%if user.is_authenticated%}
         <div class="container">
@@ -16,7 +19,6 @@
                                 <th>Product Image</th>
                                 <th>Product Price per pc  </th>
                                 <th> SUM per Transaction</th>
-                                <th>Total Count of ALL Stocks in Warehouse</th>
                                 <th>Total amount of All stocks</th>
 
                             </tr>
@@ -36,7 +38,7 @@
 
                                     <td>{{stock.product.price}}</td>
                                     <td>{{stock.product.sum_per_transaction}}</td>
-                                    <td>{{stock.actual_count}} Actual count of All stock</td>
+
                                     <td>{{stock.total_price}}</td>
                                 </tr>
                            {%endfor%}
