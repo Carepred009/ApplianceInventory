@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout, IncomingStocks
 from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm  #StockArrivalForm #ProductUpdateForm,
-from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, FormView
+from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, FormView, DeleteView
 from django.db.models import Sum, F, Q
 
 # Create your views here.
@@ -38,7 +38,7 @@ class CheckoutDisplayView(ListView):
     model = Checkout
     template_name = 'display_checkout.html'
     context_object_name = 'checkouts'
-
+    paginate_by = 10
 
 class CheckOutView(DetailView):
     model = Order
@@ -202,9 +202,41 @@ class SupplierView(CreateView):
 
     def form_invalid(self,form):
         messages.error(self.request,'Error on Adding! Check inputs!')
-        return super().form_invalide(form)
+        return super().form_invalid(form)
+
+class SupplierListView(ListView):
+    model = Supplier
+    template_name = 'suppliers_list.html'
+    context_object_name = 'suppliers'
 
 
+class SupplierUpdateView(UpdateView):
+    model = Supplier
+    template_name = 'update_supplier.html'
+    form_class = SupplierForm
+    success_url = reverse_lazy('supplier_list')
+
+
+    def form_valid(self, form):
+        messages.success(self.request,"Update Successfully!")
+        return  super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request,'Error on updating!')
+        return super().form_invalid(form)
+
+class SupplierDeleteView(DeleteView):
+    model = Supplier
+    template_name = 'delete_supplier.html'
+    success_url = reverse_lazy('supplier_list')
+
+    def form_valid(self, form):
+        messages.success(self.request,"Deleted Successfully!")
+        return  super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request,"Error on Delete!")
+        return super().form_invalid(form)
 
 class CategoryView(CreateView):
     model = Category
@@ -237,6 +269,13 @@ class CustomerView(CreateView):
         messages.error(self.request,'Error Occur in Saving Customer')
         return super().form_invalid(form)
 
+
+
+class CustomerListView(ListView):
+    model = Customer
+    template_name = 'customers_list.html'
+    context_object_name = 'customers'
+    paginate_by = 10
 
 class BaseView(TemplateView):
     template_name = "base.html"

@@ -65,6 +65,15 @@
               </ul>
           </li>
 
+           <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Customers and Suppliers</a>
+              <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'customer_list' %}">List of Customers</a></li>
+                   <li><a class="dropdown-item" href="{% url 'supplier_list' %}">List of Suppliers</a></li>
+
+              </ul>
+          </li>
+
           {%else%}
 
         <li class="nav-item">

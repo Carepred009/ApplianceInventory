@@ -32,6 +32,18 @@
             {%endfor%}
          </tbody>
      </table>
+    <div class="pagination">
+        {%if page_obj.has_previous%}
+        <a href="?page1"> First page</a>
+          <a href="?page={{page_obj.previous_page_number}}">Previous</a>
+        {%endif%}
+            <span>Page {{page_obj.number}} of {{page_obj.paginator.number_pages}}</span>
+        {%if page_obj.has_next%}
+        <a href="?page={{page_obj.next_page_number}}">Next</a>
+        <a href="?page={{page_obj.paginator.number_pages}}">last</a>
+        {%endif%}
+
+    </div>
 
 </div>
 

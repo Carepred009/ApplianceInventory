@@ -1,0 +1,22 @@
+{%extends 'base.html'%}
+
+
+
+
+{%block content%}
+
+<div class="container">
+
+
+  {%for customer in customers%}
+  {{customer.customer_id}}<br>
+  {{customer.first_name}}<br>
+    {{customer.last_name}}<br>
+  {{customer.email}}<br>
+  {{customer.number}}<br>
+  {{customer.address}}<br>
+
+  {%endfor%}
+</div>
+
+{% endblock %}
