@@ -1,0 +1,54 @@
+{%extends 'base.html'%}
+
+
+{%block content%}
+
+<div>
+   <h1>Stocks Chart</h1>
+    <div style="width: 80%;">
+        <canvas id="stocksBarChart"></canvas>
+    </div>
+
+    <script>
+        // Get the context data passed from the Django view
+        // The JSON strings are parsed back into JavaScript arrays
+        const labels = JSON.parse("{{ labels|safe }}");
+        const data = JSON.parse("{{ data|safe }}");
+
+        // Get a reference to the canvas element
+        const ctx = document.getElementById('stocksBarChart').getContext('2d');
+
+        // Create a new Chart.js chart instance
+        new Chart(ctx, {
+            // Define the type of chart (e.g., 'bar', 'line', 'pie')
+            type: 'bar',
+            data: {
+                // The labels for the x-axis, corresponding to each data point
+                labels: labels,
+                datasets: [{
+                    // Label for the dataset, used in the legend
+                    label: 'Actual Stock Count',
+                    // The actual data points for the y-axis
+                    data: data,
+                    // Optional: customize the bar colors
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                // Configuration options for the chart
+                scales: {
+                    y: {
+                        // Begin the y-axis at 0 for accurate representation
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
+
+</div>
+
+{%endblock%}

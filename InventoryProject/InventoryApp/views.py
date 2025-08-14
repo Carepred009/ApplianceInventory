@@ -1,4 +1,5 @@
-from lib2to3.fixes.fix_input import context
+import json
+
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
@@ -9,6 +10,33 @@ from django.views.generic import TemplateView, CreateView, ListView, DetailView,
 from django.db.models import Sum, F, Q
 
 # Create your views here.
+
+class StocksChartView(TemplateView):
+    # This is the template that will be rendered
+    template_name = 'stocks_chart.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation to get a context
+        context = super().get_context_data(**kwargs)
+
+        # Get all stock items from the database
+        stock_items = Stocks.objects.all()
+
+        # Extract the product names (or IDs) and their corresponding actual counts
+        # We'll use the product's name for the chart labels
+        labels = [item.product for item in stock_items]
+        # We'll use the actual_count for the chart data
+        data = [item.actual_count for item in stock_items]
+
+        # Add the labels and data to the context, which will be passed to the template
+        # The json.dumps() function serializes the lists into a JSON formatted string,
+        # which is the format Charts.js expects.
+        context['labels'] = json.dumps(labels)
+        context['data'] = json.dumps(data)
+
+        # Return the context dictionary
+        return context
+
 
 class SalesChartView(TemplateView):
     template_name = 'sales_chart.html'
@@ -29,6 +57,7 @@ class SalesChartView(TemplateView):
         context["data"] = [item["total_sold"] for item in sales_data]
 
         return context
+
 
 
 class UpdateCustomer(UpdateView):
@@ -189,7 +218,7 @@ class ProductView(CreateView):
         messages.error(self.request, 'Error On Saving!')
         return super().form_invalid(form)
 
-
+#create Supplier
 class SupplierView(CreateView):
     model = Supplier
     template_name = 'supplier.html'
@@ -204,12 +233,13 @@ class SupplierView(CreateView):
         messages.error(self.request,'Error on Adding! Check inputs!')
         return super().form_invalid(form)
 
+#Display all supplier
 class SupplierListView(ListView):
     model = Supplier
     template_name = 'suppliers_list.html'
     context_object_name = 'suppliers'
 
-
+#Update the Supplier
 class SupplierUpdateView(UpdateView):
     model = Supplier
     template_name = 'update_supplier.html'
@@ -225,6 +255,7 @@ class SupplierUpdateView(UpdateView):
         messages.error(self.request,'Error on updating!')
         return super().form_invalid(form)
 
+#delete the supplier
 class SupplierDeleteView(DeleteView):
     model = Supplier
     template_name = 'delete_supplier.html'
@@ -238,6 +269,7 @@ class SupplierDeleteView(DeleteView):
         messages.error(self.request,"Error on Delete!")
         return super().form_invalid(form)
 
+#Creates category of the product
 class CategoryView(CreateView):
     model = Category
     template_name = 'category.html'
@@ -258,6 +290,7 @@ class CustomerView(CreateView):
     form_class = CustomerForm
     success_url = reverse_lazy('order')
 
+    #Hold the customer name and id to use in Order model
     def get_success_url(self):
         return reverse('order-create') + f'?customer_id={self.object.pk}'
 
@@ -269,8 +302,34 @@ class CustomerView(CreateView):
         messages.error(self.request,'Error Occur in Saving Customer')
         return super().form_invalid(form)
 
+#Delete Customer
+class CustomerDeleteView(DeleteView):
+    model = Customer
+    template_name = 'customer_delete.html'
+    success_url = reverse_lazy('customer_list')
 
+    def form_valid(self, form):
+        messages.success(self.request,'Deleted Successfully!')
+        return super().form_valid(form)
 
+    def form_invalid(self, form):
+        messages.error(self.request,'Error On Delete!')
+        return super().form_invalid(form)
+#Update Customer
+class CustomerUpdateView(UpdateView):
+    model = Customer
+    template_name = 'customers_update.html'
+    form_class = CustomerForm
+    success_url = reverse_lazy('customer_list')
+
+    def form_valid(self, form):
+        messages.success(self.request,"Update Successfully")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request,'Update Error')
+        return super().form_invalid(form)
+#Display all Customer
 class CustomerListView(ListView):
     model = Customer
     template_name = 'customers_list.html'

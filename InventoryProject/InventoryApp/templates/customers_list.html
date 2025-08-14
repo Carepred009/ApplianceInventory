@@ -1,22 +1,36 @@
 {%extends 'base.html'%}
-
-
-
-
 {%block content%}
-
 <div class="container">
+    <table class="table table-stripped">
+      <thead>
+        <tr>
+            <th>Customer ID</th>
+           <th>Customer First Name</th>
+           <th>Customer Last Name</th>
+           <th>Customer Email</th>
+           <th>Customer Number</th>
+            <th>Customer Address </th>
+        </tr>
+      </thead>
+      <tbody>
+      {%for customer in customers%}
+        <tr>
+          <td> {{customer.customer_id}}</td>
+             <td>  {{customer.first_name}}</td>
+             <td>{{customer.last_name}}</td>
+             <td>{{customer.email}}</td>
+             <td>  {{customer.number}}</td>
+             <td>{{customer.address}}</td>
+          <td><a href="{% url 'customers_update' customer.customer_id%}"  class="btn btn-primary">UPDATE </a></td>
+          <td> <a href="{% url 'customers_delete' customer.customer_id%}" class="btn btn-danger">DELETE</a></td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
 
 
-  {%for customer in customers%}
-  {{customer.customer_id}}<br>
-  {{customer.first_name}}<br>
-    {{customer.last_name}}<br>
-  {{customer.email}}<br>
-  {{customer.number}}<br>
-  {{customer.address}}<br>
 
-  {%endfor%}
+
 </div>
 
 {% endblock %}

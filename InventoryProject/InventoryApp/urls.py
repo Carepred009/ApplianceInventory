@@ -4,7 +4,8 @@ from django.urls import path
 
 from .views import (BaseView, CustomerView, CategoryView, SupplierView, ProductView, StocksView, SearchResultView,
                     OrderAccept, OrderDisplay, SpecifiedProductView, CheckOutView,
-                    CheckoutDisplayView, IncomingStocksView, SalesChartView, CustomerListView, SupplierListView, SupplierUpdateView, SupplierDeleteView
+                    CheckoutDisplayView, IncomingStocksView, SalesChartView, CustomerListView, SupplierListView,
+                    SupplierUpdateView, SupplierDeleteView, StocksChartView, CustomerUpdateView, CustomerDeleteView
                     )  # SelectProductView, UpdateProductView   StockArrivalView #StockArrivalView
 
 
@@ -27,6 +28,8 @@ urlpatterns = [
 
     path('customer_list/',CustomerListView.as_view(), name="customer_list"),
     path('customer/', CustomerView.as_view(), name="customer"),
+    path('customers_update/<int:pk>/', CustomerUpdateView.as_view(), name="customers_update"),
+    path('customer_delete/<int:pk>/',CustomerDeleteView.as_view(), name="customers_delete"),
 
 
 
@@ -53,6 +56,9 @@ urlpatterns = [
     path('incoming/',IncomingStocksView.as_view(), name="incoming"),
 
 
-    path('sales_chart/', SalesChartView.as_view(), name="sales_chart")
+    path('sales_chart/', SalesChartView.as_view(), name="sales_chart"),
+    path('stocks-chart/', StocksChartView.as_view(), name='stocks-chart'),
+
+
 
 ]
