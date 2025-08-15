@@ -107,11 +107,13 @@ class Stocks(models.Model):
     def __str__(self):
         return f"{self.actual_count}"
 
-
+#again usabon kay wala na mao
 class IncomingStocks(models.Model):
     IncomingStocks_id = models.AutoField(primary_key=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE, null=True, blank=True)
+    incoming_count = models.IntegerField(blank=True, null=True)
+    incoming_date = models.DateTimeField(auto_now_add=True, null=True,blank=True)
 
     def __str__(self):
         return str(self.product)

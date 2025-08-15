@@ -1,6 +1,5 @@
 {%extends 'base.html'%}
 
-
 {%block content%}
 <div class="container">
   <div class="form-group">
@@ -14,7 +13,6 @@
               <th>Quantity</th>
               <th>Transaction Date</th>
               <th>Price per piece</th>
-
           </tr>
           </thead>
           <tbody>
@@ -22,21 +20,13 @@
             <tr>
                 <td>{{income.product.product_name}}</td>
                 <td>{{income.supplier.supplier_name}}</td>
-                <td>{{income.product.quantity}}</td>
-                <td>{{income.product.transaction_date}}</td>
+                <td>{{income.incoming_count}}</td>
+                <td>{{income.incoming_date}}</td>
                 <td>{{income.product.price}}</td>
-
-
             </tr>
            {%endfor%}
           </tbody>
       </table>
-
-
-
-
-
-
   </div>
 </div>
 {%endblock%}
