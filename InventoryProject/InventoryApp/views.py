@@ -1,9 +1,11 @@
 import json
-
+from lib2to3.fixes.fix_input import context
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
+from unicodedata import category
+
 from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout, IncomingStocks
 from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm  #StockArrivalForm #ProductUpdateForm,
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, FormView, DeleteView
@@ -186,10 +188,26 @@ class IncomingStocksView(ListView):
     template_name = 'incoming_stocks.html'
     context_object_name = 'incoming'
 
+
 class SpecifiedProductView(DetailView):
-    model = Stocks
+    model = Product
     template_name = 'specified_product.html'
     context_object_name = 'products'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # Group by product_name and sum quantity for each
+        total_per_product = (
+            Product.objects
+            .values('product_name__product_name')  # assuming ProductName model has a 'name' field
+            .annotate(total_quantity=Sum('quantity'))
+        )
+
+        context['total_per_product'] = total_per_product
+        return context
+
+
 
 
 class ProductView(CreateView):

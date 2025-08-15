@@ -6,8 +6,21 @@
 <div class="container">
   <div class="form-group">
     <p>IF your using DetailView Do not use for loop like ListView </p>
-      <p>If you want to ge the value of the attibute but its in Two Relational Table. just to the contet_object_name.2ndmodelattributename.firstmodelattributename </p>
-        {{products.product.product_name}}| {{products.supplier.supplier_name}} | {{products.product.quantity}} {{products.product.price}}
+      <p>If you want to ge the value of the attibute but its in Two Relational Table. just to the contet_object_name.2ndmodelattributename.firstmodelattributename </p> <br>
+
+      <h5> {{total_per_product}} THIS from one context</h5>
+
+
+       {{products.supplier.supplier_name}} <br>
+    {{products.product_name}} <br>
+      {{products.quantity}} <br>
+        {{products.price}} <br>
+
+
+
+    {%for item in total_per_product%}
+      <h3>{{item.product_name__product_name}} :   {{item.total_quantity}}</h3>
+    {%endfor%}
 
   </div>
 </div>

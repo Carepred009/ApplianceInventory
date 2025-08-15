@@ -9,6 +9,7 @@
                         <TABLE class="table table-stripped">
                             <thead>
                             <tr>
+                                <th>Product ID</th>
                                 <th>Product</th>
                                 <th>Total Count of The Product</th>
                                   <th>Supplier</th>
@@ -22,6 +23,7 @@
                             <tbody>
                            {% for stock in page_obj%}
                                 <tr>
+                                     <td>{{stock.product.product_id}}</td>
                                     <td>{{stock.product.product_name}}</td>
                                     <td>{{stock.product.quantity}} ACTUAL count of Product</td>
                                     <td>{{stock.supplier}}</td>
