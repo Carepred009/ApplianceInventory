@@ -2,10 +2,11 @@ from tkinter.font import names
 
 from django.urls import path
 
+from django.views.generic import TemplateView
 from .views import (BaseView, CustomerView, CategoryView, SupplierView, ProductView, StocksView, SearchResultView,
                     OrderAccept, OrderDisplay, SpecifiedProductView, CheckOutView,
                     CheckoutDisplayView, IncomingStocksView, SalesChartView, CustomerListView, SupplierListView,
-                    SupplierUpdateView, SupplierDeleteView, StocksChartView, CustomerUpdateView, CustomerDeleteView
+                    SupplierUpdateView, SupplierDeleteView, StocksChartView, CustomerUpdateView, CustomerDeleteView, EmailContactView
                     )  # SelectProductView, UpdateProductView   StockArrivalView #StockArrivalView
 
 
@@ -13,6 +14,9 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('',BaseView.as_view(), name="home"),
+
+    path('send_email/', EmailContactView.as_view(), name="send_email"),
+    path('success_email/success/', TemplateView.as_view(template_name='send_email_success.html'), name="send_email_success"),
 
     path('stocks/',StocksView.as_view(), name="stocks"),
 
@@ -42,7 +46,7 @@ urlpatterns = [
 
     path('order_display/',OrderDisplay.as_view(), name="order_display"),
 
-    path('search_stocks/<int:pk>', SpecifiedProductView.as_view() ,name="search_stock"),
+    path('stocks_per_product/', SpecifiedProductView.as_view() ,name="search_stock"), #sum the quantity per product
 
     #path('select_product/',SelectProductView.as_view(), name="select_product"),
    # path('update_product/<int:pk>/', UpdateProductView.as_view(), name="update_product"),

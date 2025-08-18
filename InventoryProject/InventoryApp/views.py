@@ -1,17 +1,37 @@
 import json
-from lib2to3.fixes.fix_input import context
 
+from django.conf import settings
+from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from unicodedata import category
 
 from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout, IncomingStocks
-from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm  #StockArrivalForm #ProductUpdateForm,
+from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm, EmailForm  #StockArrivalForm #ProductUpdateForm,
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, FormView, DeleteView
 from django.db.models import Sum, F, Q
 
 # Create your views here.
+
+class EmailContactView(FormView):
+    template_name = 'contact_email.html'
+    form_class = EmailForm
+    success_url = reverse_lazy('send_email_success')
+
+    def form_valid(self, form):
+        #this is from the form that we use in form_class
+        sender_name = form.cleaned_data['sender_name']
+        recipient_email = form.cleaned_data['recipient_email']
+        message = form.cleaned_data['message']
+
+        subject = f"New Email from {sender_name}"
+        full_message = f"From:{sender_name} <{recipient_email}> \n\n Messsage: \n {message}"
+
+        send_mail(subject, full_message, settings.EMAIL_HOST_USER, [recipient_email])
+
+        return super().form_valid(form)
+
 
 class StocksChartView(TemplateView):
     # This is the template that will be rendered
@@ -59,7 +79,6 @@ class SalesChartView(TemplateView):
         context["data"] = [item["total_sold"] for item in sales_data]
 
         return context
-
 
 
 class UpdateCustomer(UpdateView):
@@ -174,7 +193,7 @@ class StocksView(ListView):
     #context_object_name = 'stocks'  #remove this if you want pagination and use the built-in  page_obj
     paginate_by = 5 #show 5 rows of result per page number
 
-
+    # this is function is remove working but the context is remove in the template
     #get the total or sum of all products in the Stocks model
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -189,7 +208,7 @@ class IncomingStocksView(ListView):
     context_object_name = 'incoming'
 
 
-class SpecifiedProductView(DetailView):
+class SpecifiedProductView(ListView):
     model = Product
     template_name = 'specified_product.html'
     context_object_name = 'products'

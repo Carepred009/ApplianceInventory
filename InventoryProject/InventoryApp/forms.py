@@ -1,7 +1,13 @@
 from django import forms
-from unicodedata import category
+from django.core.validators import RegexValidator
+
 
 from .models import Customer, Category, Supplier, Product, Order, Checkout
+
+class EmailForm(forms.Form):
+   sender_name = forms.CharField(max_length=255)
+   recipient_email =  forms.EmailField(label="Recipient Email")
+   message = forms.CharField(widget=forms.Textarea)
 
 
 class CustomerForm(forms.ModelForm):
@@ -13,9 +19,8 @@ class CustomerForm(forms.ModelForm):
             'first_name': forms.TextInput(attrs={'class':'form-control','placeholder':'First Name'}),
             'last_name':forms.TextInput(attrs={'class':'form-control','placeholder':'Last Name'}),
             'email':forms.EmailInput(attrs={'class':'form-control','placeholder':'Email'}),
-            'number':forms.TextInput(attrs={'class':'form-control','placeholder':'Your number'}),
+            'number':forms.TextInput(attrs={'class':'form-control','placeholder':'Enter 11 digits mobile number'}),
             'address': forms.Textarea(attrs={'class':'form-control','placeholder':'Address'}),
-
         }
 
 class CategoryForm(forms.ModelForm):
@@ -35,10 +40,11 @@ class SupplierForm(forms.ModelForm):
 
         widgets  = {
             'supplier_name': forms.TextInput(attrs={'class':'form-control','placeholder':'Supplier Name'}),
-            'number':forms.TextInput(attrs={'class':'form-control','placeholder':'Suppliers Number'}),
+           'number':forms.TextInput(attrs={'class':'form-control','placeholder':'Phone Number'}),
             'email':forms.EmailInput(attrs={'class':'form-control','placeholder':'Suppliers Email'}),
             'address':forms.Textarea(attrs={'class':'form-control','placeholder':'Supplier Address'})
         }
+
 '''
 class ProductUpdateForm(forms.ModelForm):
     class Meta:
@@ -62,7 +68,6 @@ class StockArrivalForm(forms.Form):
     price = forms.DecimalField(max_digits=10,decimal_places=2, widget=forms.NumberInput(attrs={'steps':'0.01'})) # Optional: for decimal step
 '''
 
-
 '''
 #this form is for new Arrival of Products
 class StockArrivalForm(forms.Form):
@@ -72,13 +77,10 @@ class StockArrivalForm(forms.Form):
     price = forms.DecimalField(max_digits=10,decimal_places=2, widget=forms.NumberInput(attrs={'steps':'0.01'})) # Optional: for decimal step
 '''
 
-
-
-
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('product_name','product_description','quantity','price','category','supplier','product_image')
+        fields = ['product_name','product_description','quantity','price','category','supplier','product_image']
 
         widgets = {
             'product_name':forms.Select(attrs={'class':'form-control','placeholder':'Product Name'}),

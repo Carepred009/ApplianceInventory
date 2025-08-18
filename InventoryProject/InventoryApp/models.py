@@ -6,19 +6,20 @@ from turtle import Turtle
 from django.contrib.auth.models import User
 from django.contrib.messages.storage.cookie import bisect_keep_left
 from django.contrib.staticfiles.views import serve
+from django.core.validators import RegexValidator
 
 from django.db import models
 from django.db.models import ForeignKey
 
 
 # Create your models here.
-
+# number = models.CharField(max_length=11, validators=[RegexValidator(r'^\d{10,15}$','Enter mobile number')],)
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key = True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255,unique=False)
-    number = models.CharField(max_length=255)
+    number = models.CharField(max_length=11, validators=[RegexValidator(r'^\d{10,15}','Enter 11 digit mobile number')])
     address = models.TextField(max_length=255, blank=True,null=True)
 
     def __str__(self):
@@ -38,7 +39,8 @@ class Category(models.Model):
 class Supplier(models.Model):
     supplier_id  = models.AutoField(primary_key = True)
     supplier_name = models.CharField(max_length=255)
-    number = models.CharField(max_length=255)
+    #number = models.CharField(max_length=255)
+    number = models.CharField(max_length=11, validators=[RegexValidator(r'^\d{10,15}$','Enter mobile number')],)
     email = models.EmailField(max_length=255, unique=False)
     address = models.TextField(max_length=255)
 
