@@ -1,4 +1,5 @@
 import json
+from itertools import product
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -33,31 +34,8 @@ class EmailContactView(FormView):
         return super().form_valid(form)
 
 
-class StocksChartView(TemplateView):
-    # This is the template that will be rendered
-    template_name = 'stocks_chart.html'
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation to get a context
-        context = super().get_context_data(**kwargs)
 
-        # Get all stock items from the database
-        stock_items = Stocks.objects.all()
-
-        # Extract the product names (or IDs) and their corresponding actual counts
-        # We'll use the product's name for the chart labels
-        labels = [item.product for item in stock_items]
-        # We'll use the actual_count for the chart data
-        data = [item.actual_count for item in stock_items]
-
-        # Add the labels and data to the context, which will be passed to the template
-        # The json.dumps() function serializes the lists into a JSON formatted string,
-        # which is the format Charts.js expects.
-        context['labels'] = json.dumps(labels)
-        context['data'] = json.dumps(data)
-
-        # Return the context dictionary
-        return context
 
 
 class SalesChartView(TemplateView):
@@ -89,6 +67,7 @@ class CheckoutDisplayView(ListView):
     template_name = 'display_checkout.html'
     context_object_name = 'checkouts'
     paginate_by = 10
+    #ordering = []
 
 class CheckOutView(DetailView):
     model = Order
@@ -193,13 +172,32 @@ class StocksView(ListView):
     #context_object_name = 'stocks'  #remove this if you want pagination and use the built-in  page_obj
     paginate_by = 5 #show 5 rows of result per page number
 
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        product_name = self.request.GET.get("product")
+
+        if product_name:
+            queryset = queryset.filter(product__product_name = product_name)
+        return queryset
+
     # this is function is remove working but the context is remove in the template
     #get the total or sum of all products in the Stocks model
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         total_quantity = Stocks.objects.aggregate(Sum('actual_count')) ['actual_count__sum'] or 0  # ['actual_count__sum'] or 0 add this to prevent display the model attribute
         context['total_quantity'] = total_quantity
+
+        context["product_name"] = Stocks.objects.values_list("product__product_name",flat=True).distinct()
+
         return  context
+
+
+
+
+
+
+
 
 
 class IncomingStocksView(ListView):
