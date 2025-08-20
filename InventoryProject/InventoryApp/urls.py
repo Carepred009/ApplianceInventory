@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from .views import (BaseView, CustomerView, CategoryView, SupplierView, ProductView, StocksView, SearchResultView,
                     OrderAccept, OrderDisplay, SpecifiedProductView, CheckOutView,
                     CheckoutDisplayView, IncomingStocksView, SalesChartView, CustomerListView, SupplierListView,
-                    SupplierUpdateView, SupplierDeleteView, CustomerUpdateView, CustomerDeleteView, EmailContactView
+                    SupplierUpdateView, SupplierDeleteView, CustomerUpdateView, CustomerDeleteView, EmailContactView, ProductNameView
                     )  # SelectProductView, UpdateProductView   StockArrivalView #StockArrivalView
 
 
@@ -20,6 +20,7 @@ urlpatterns = [
 
     path('stocks/',StocksView.as_view(), name="stocks"),
 
+    path('create_product_name/', ProductNameView.as_view(), name="create_product_name"),
     path('product/',ProductView.as_view(), name="product"),
 
 

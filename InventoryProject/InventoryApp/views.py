@@ -1,15 +1,14 @@
-import json
-from itertools import product
+
 
 from django.conf import settings
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
-from unicodedata import category
 
-from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout, IncomingStocks
-from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm, EmailForm  #StockArrivalForm #ProductUpdateForm,
+
+from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout, IncomingStocks, ProductName
+from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm, EmailForm, ProductNameForm  #StockArrivalForm #ProductUpdateForm,
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, UpdateView, FormView, DeleteView
 from django.db.models import Sum, F, Q
 
@@ -187,9 +186,6 @@ class StocksView(ListView):
         context = super().get_context_data(**kwargs)
         total_quantity = Stocks.objects.aggregate(Sum('actual_count')) ['actual_count__sum'] or 0  # ['actual_count__sum'] or 0 add this to prevent display the model attribute
         context['total_quantity'] = total_quantity
-
-        context["product_name"] = Stocks.objects.values_list("product__product_name",flat=True).distinct()
-
         return  context
 
 
@@ -224,8 +220,20 @@ class SpecifiedProductView(ListView):
         context['total_per_product'] = total_per_product
         return context
 
+class ProductNameView(CreateView):
+    model =  ProductName
+    template_name = 'product_name.html'
+    form_class = ProductNameForm
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        messages.success(self.request,"Added Product Name Successfully")
+        return super().form_valid(form)
 
 
+    def form_invalid(self, form):
+        messages.error(self.request,"Invalid Input")
+        return super().form_invalid(form)
 
 class ProductView(CreateView):
     model = Product

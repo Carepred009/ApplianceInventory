@@ -12,17 +12,6 @@
                                 <th>Product ID</th>
                                     <th>
                                         Product Name
-                                        <!-- Dropdown inside the header -->
-                                        <form method="get" style="display:inline;">
-                                          <select name="product" onchange="this.form.submit()">
-                                            <option value="">-- All --</option>
-                                            {% for name in product_names %}
-                                              <option value="{{ name }}" {% if request.GET.product == name %}selected{% endif %}>
-                                                {{ name }}
-                                              </option>
-                                            {% endfor %}
-                                          </select>
-                                        </form>
                                       </th>
                                 <th>Total Count of The Product</th>
                                   <th>Supplier</th>
@@ -37,7 +26,7 @@
                            {% for stock in page_obj%}
                                 <tr>
                                      <td>{{stock.product.product_id}}</td>
-                                     <td><a href="?product={{ stock.product.product_name }}">{{ stock.product.product_name }}</a></td>
+                                     <td>{{ stock.product.product_name }}</td>
                                     <td>{{stock.product.quantity}} ACTUAL count of Product</td>
                                     <td>{{stock.supplier}}</td>
                                     <td>{{stock.product.transaction_date}}</td>
