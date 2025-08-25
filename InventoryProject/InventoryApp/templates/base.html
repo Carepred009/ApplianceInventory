@@ -101,7 +101,23 @@
   </div>
 </nav>
         {%if user.is_authenticated%}
-            {% if messages %}
+            <div class="container mt-3">
+                    {% for message in messages %}
+                      <div class="alert
+                                  {% if message.tags == 'error' %}alert-danger
+                                  {% elif message.tags == 'success' %}alert-success
+                                  {% elif message.tags == 'warning' %}alert-warning
+                                  {% else %}alert-info{% endif %}">
+                            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+                        {{ message }}
+
+                      </div>
+                    {% endfor %}
+            </div>
+                 {%endif%}
+
+<!---
+{% if messages %}
                 <div class="container mt-3">
                         {%for message in messages%}
                             <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert" >
@@ -110,10 +126,7 @@
                             </div>
                         {%endfor%}
                 </div>
-            {%endif%}
-
-
-                 {%endif%}
+            {%endif%} -->
 
 
 {%block content%}

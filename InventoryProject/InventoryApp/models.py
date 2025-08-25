@@ -69,7 +69,7 @@ class Product(models.Model):
 
 
     def __str__(self):
-        return (f"{self.product_name} {self.price}")
+        return (f"{self.product_name}  price: {self.price}  quantity: {self.quantity}" )
 
 
 

@@ -1,6 +1,8 @@
-
+from itertools import product
+from lib2to3.fixes.fix_input import context
 
 from django.conf import settings
+from django.contrib.messages import success
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
@@ -134,7 +136,6 @@ class OrderAccept(CreateView):
     form_class = OrderForm
     success_url = reverse_lazy('order_display')
 
-
     def get_initial(self):
         initial = super().get_initial()
         customer_id = self.request.GET.get('customer_id')
@@ -157,12 +158,19 @@ class OrderAccept(CreateView):
         product = form.cleaned_data['product']
         quantity = form.cleaned_data['order_quantity']
         form.instance.amount = product.price * quantity
+
+        # return to the home if the product quanity is greater than order quantity
+        if quantity > product.quantity:
+            messages.error(self.request,'More the the actual stocks')
+            return self.form_invalid(form)
+
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs): # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         context = super().get_context_data(**kwargs)# # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         context['product_prices'] = {p.product_id: float(p.price) for p in Product.objects.all()} # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         return context
+
 
 
 class SearchResultView(ListView):
