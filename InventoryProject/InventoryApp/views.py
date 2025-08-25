@@ -74,11 +74,12 @@ class CheckOutView(DetailView):
     context_object_name = 'checkouts'
 
     def post(self, request, *args, **kwargs):
-        order = self.get_object()
-        product = order.product
+        order = self.get_object() # we can use the variables in Order model with order.order_id example
+        product = order.product # We can access Product model from Model by order.product but we must product.product_id example
 
         # Get Stock object related to the product
         stock = get_object_or_404(Stocks, product=product)
+
 
         # Prevent negative stock
         if product.quantity < order.order_quantity:
@@ -90,6 +91,19 @@ class CheckOutView(DetailView):
         # Deduct product stock
         product.quantity -= order.order_quantity
         product.save()
+
+
+        #send an email upon checksout the order  send_mail() function is already in django.
+        send_mail(
+            subject="Order Confirmation",
+            message= f"Thank you for your Order, {order.customer.first_name}."
+                      f"You bought {order.order_quantity} x {product.product_name}."
+                        f"for a total of {order.amount}.",
+            from_email= "djangoproject583@gmail.com", #Use the email that for the store only
+            recipient_list=[order.customer.email], # get the customer email
+            fail_silently= False,
+        )
+
 
         #Insert into Checkout model after Clicking Chekcout button
         Checkout.objects.create(

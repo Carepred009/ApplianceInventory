@@ -21,6 +21,24 @@ def update_stocks_from_product(sender, instance, **kwargs):
         }
     )
 
+@receiver(post_save, sender = Product)
+def create_incoming_stock(sender, instance,created, **kwargs):
+    if created:
+
+        product_quantity = instance.quantity
+        product_date = instance.transaction_date
+
+
+        IncomingStocks.objects.create(
+            product = instance,
+            supplier = instance.supplier,
+            incoming_count=product_quantity,
+            incoming_date= product_date
+
+        )
+
+
+
 '''
 @receiver(post_save, sender=Product)
 def create_stocks_model(sender, instance, created, **kwargs):
@@ -41,21 +59,7 @@ def create_stocks_model(sender, instance, created, **kwargs):
 
 #buhat  tag signal dri a pg mag update sa isa ka product mag insert padulong stocks model
 '''
-@receiver(post_save, sender = Product)
-def create_incoming_stock(sender, instance,created, **kwargs):
-    if created:
 
-        product_quantity = instance.quantity
-        product_date = instance.transaction_date
-
-
-        IncomingStocks.objects.create(
-            product = instance,
-            supplier = instance.supplier,
-            incoming_count=product_quantity,
-            incoming_date= product_date
-
-        )
 
 '''
 @receiver(post_save, sender=Product)
