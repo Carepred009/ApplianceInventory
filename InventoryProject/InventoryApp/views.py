@@ -402,5 +402,5 @@ class CustomerListView(ListView):
     paginate_by = 10
 
 class BaseView(TemplateView):
-    template_name = "base.html"
+    template_name = "home.html"
 

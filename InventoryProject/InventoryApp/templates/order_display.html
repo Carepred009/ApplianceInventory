@@ -1,54 +1,57 @@
+
 {%extends 'base.html'%}
+
 {%block content%}
-<div class="container">
-    <div class="form-group">
-        <table class="table  table-stripped">
-            <thead>
-                <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                      <th>Product Name</th>
-                      <th>Order Date</th>
-                      <th>Order Quantity</th>
-                    <th>Order Price Per Piece</th>
-                      <th>Order Amount</th>
-                      <th>Personel</th>
-                    <th>Check Out</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-              {%for order in page_obj%}
-                <tr>
-                    <td>{{order.order_id}}</td>
-                    <td>{{order.customer.first_name}}</td>
-                    <td>   {{order.customer.last_name}}</td>
-                    <td> {{order.product.product_name}}</td>
-                           <td>{{order.order_date}}</td>
-                           <td>{{order.order_quantity}}</td>
-                           <td> {{order.product.price}}</td>
-                           <td>{{order.amount}}</td>
-                        <td>  {{order.user}}</td>
-                      <td> <a href="{% url 'checkout' order.order_id%}" class="btn btn-primary">Check Out</a></td>
-                </tr>
-             {%endfor%}
-            </tbody>
-        </table>
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                          <th>Product Name</th>
+                          <th>Order Date</th>
+                          <th>Order Quantity</th>
+                        <th>Order Price Per Piece</th>
+                          <th>Order Amount</th>
+                          <th>Personel</th>
+                        <th>Check Out</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {%for order in page_obj%}
+                    <tr>
+                        <td>{{order.order_id}}</td>
+                        <td>{{order.customer.first_name}}</td>
+                        <td>   {{order.customer.last_name}}</td>
+                        <td> {{order.product.product_name}}</td>
+                               <td>{{order.order_date}}</td>
+                               <td>{{order.order_quantity}}</td>
+                               <td> {{order.product.price}}</td>
+                               <td>{{order.amount}}</td>
+                            <td>  {{order.user}}</td>
+                          <td> <a href="{% url 'checkout' order.order_id%}" class="btn btn-primary">Check Out</a></td>
+                    </tr>
+                 {%endfor%}
+                </tbody>
+            </table>
 
-<div class="pagination">
-    {% if page_obj.has_previous %}
-        <a href="?page=1">First</a>
-        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
-    {% endif %}
-    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-    {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">Next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-    {% endif %}
-</div>
+                    <div class="pagination">
+                        {% if page_obj.has_previous %}
+                            <a href="?page=1">First</a>
+                            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        {% endif %}
+                        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                        {% if page_obj.has_next %}
+                            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                            <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                        {% endif %}
+                    </div>
 
 
+        </div>
     </div>
-</div>
+
 
 {%endblock%}
