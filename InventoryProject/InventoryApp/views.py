@@ -1,5 +1,4 @@
-from itertools import product
-from lib2to3.fixes.fix_input import context
+
 
 from django.conf import settings
 from django.contrib.messages import success
