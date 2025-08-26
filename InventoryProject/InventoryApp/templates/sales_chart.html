@@ -5,33 +5,33 @@
 {% block content%}
 
 
-    <h2>Sales per Product</h2>
-    <canvas id="salesChart" width="50" height="50"></canvas>
+   <h2>Product Quantities</h2>
+    <div style="width:700px; height:700px; margin:auto;">
+              <canvas id="myPieChart"></canvas>
+    </div>
+
 
     <script>
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        const salesChart = new Chart(ctx, {
-            type: 'bar',
+        const ctx = document.getElementById('myPieChart').getContext('2d');
+        const myPieChart = new Chart(ctx, {
+            type: 'pie',
             data: {
                 labels: {{ labels|safe }},
                 datasets: [{
-                    label: 'Total Quantity Sold',
+                    label: 'Quantity',
                     data: {{ data|safe }},
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)',
+                        'rgba(255, 159, 64, 0.6)'
+                    ],
                     borderWidth: 1
                 }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
             }
         });
     </script>
-
 
 {%endblock%}

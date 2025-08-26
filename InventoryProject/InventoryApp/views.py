@@ -36,9 +36,20 @@ class EmailContactView(FormView):
 
 
 
+class SalesChartView(TemplateView):
+    template_name = 'sales_chart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        checkouts = Checkout.objects.all()
+        context['labels'] = [checkout.product_name.product_name for checkout in checkouts]
+        context['data']  = [checkout.checkout_quantity for checkout in checkouts]
+        return context
 
 
 
+
+'''
 class SalesChartView(TemplateView):
     template_name = 'sales_chart.html'
 
@@ -58,7 +69,7 @@ class SalesChartView(TemplateView):
         context["data"] = [item["total_sold"] for item in sales_data]
 
         return context
-
+'''
 
 class UpdateCustomer(UpdateView):
     model = Customer
