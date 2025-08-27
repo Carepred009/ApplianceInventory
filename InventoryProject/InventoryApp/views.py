@@ -1,4 +1,4 @@
-
+from lib2to3.fixes.fix_input import context
 
 from django.conf import settings
 from django.contrib.messages import success
@@ -40,13 +40,29 @@ class SalesChartView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # query the Checkout model
         checkouts = Checkout.objects.all()
+
+        # gets the product_name from ProductName model because it FK and use for loop to get all data
         context['labels'] = [checkout.product_name.product_name for checkout in checkouts]
         context['data']  = [checkout.checkout_quantity for checkout in checkouts]
         return context
 
+class PieChartView(TemplateView):
+    template_name = 'PieCharts_stocks.html'
 
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
 
+        #query/selects all data from Stocks model
+        stocks = Stocks.objects.all()
+
+        #will loop all through prodict_name and display by context name labels]
+        #labels and data will use in the Pie Chart.js
+        context['labels'] = [stock.product.product_name.product_name for stock in stocks]
+        context['data'] = [stock.actual_count for stock in stocks]
+        return context
 
 '''
 class SalesChartView(TemplateView):

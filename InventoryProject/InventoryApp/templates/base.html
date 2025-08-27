@@ -56,6 +56,7 @@
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Charts </a>
               <ul class="dropdown-menu">
                   <li><a class="dropdown-item" href="{% url 'sales_chart' %}">Sales Charts</a></li>
+                  <li><a class="dropdown-item" href="{% url 'pie_chart'%}">Pie Chart Inventory</a></li>
               </ul>
           </li>
 
@@ -120,7 +121,9 @@
 {% endblock %}
 
 <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+<!---
 <script src="{% static 'js/chart.umd.min.js' %}"></script>
 <script src="{% static 'js/charts.js' %}"></script>
+-->
 </body>
 </html>
