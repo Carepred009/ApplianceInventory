@@ -1,3 +1,4 @@
+from itertools import product
 from lib2to3.fixes.fix_input import context
 
 from django.conf import settings
@@ -55,36 +56,17 @@ class PieChartView(TemplateView):
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
 
-        #query/selects all data from Stocks model
-        stocks = Stocks.objects.all()
+        #total_quantity = Product.objects.aggregate(Sum('quantity'))['quantity__sum'] or 0
 
-        #will loop all through prodict_name and display by context name labels]
-        #labels and data will use in the Pie Chart.js
-        context['labels'] = [stock.product.product_name.product_name for stock in stocks]
-        context['data'] = [stock.actual_count for stock in stocks]
-        return context
-
-'''
-class SalesChartView(TemplateView):
-    template_name = 'sales_chart.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        # Aggregate total quantity sold per product
-        sales_data = (
-            Checkout.objects
-            .values("product_name")
-            .annotate(total_sold = Sum("checkout_quantity"))
-            .order_by("checkout_date")
+        grouped_data = (
+            Product.objects
+            .values('product_name__product_name')
+            .annotate(total_count = Sum('quantity'))
+           # .order_by('-quantity') do not include it because the pie chart will be slice according to when you insert it
         )
-
-        # Prepare data for Charts.js
-        context["labels"] = [item["product_name"] for item in sales_data]
-        context["data"] = [item["total_sold"] for item in sales_data]
-
+        context['labels'] = [item['product_name__product_name'] for item in grouped_data]
+        context['counts'] = [item['total_count'] for item in grouped_data]
         return context
-'''
 
 class UpdateCustomer(UpdateView):
     model = Customer
@@ -218,7 +200,6 @@ class StocksView(ListView):
     template_name = 'stocks_movement.html'
     #context_object_name = 'stocks'  #remove this if you want pagination and use the built-in  page_obj
     paginate_by = 5 #show 5 rows of result per page number
-
 
     def get_queryset(self):
         queryset = super().get_queryset()

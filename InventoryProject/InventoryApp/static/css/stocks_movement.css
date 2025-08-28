@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th, td {
+  border: 2px solid #ccc;
+}
+
+/* Creates a horizontal line under each table row */
+tr {
+  border-bottom: 2px solid #ddd;
+}
+
+
+th {
+  background-color: #333; /* A dark background color */
+  color: white;           /* White text for contrast */
+  text-align: left;       /* Left-align the text */
+  padding: 10px;          /* Add padding for spacing */
+  border-bottom: 2px solid #555; /* A thicker border at the bottom */
+}
