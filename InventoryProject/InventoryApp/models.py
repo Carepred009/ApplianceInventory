@@ -19,7 +19,7 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255,unique=False)
-    number = models.CharField(max_length=11, validators=[RegexValidator(r'^\d{10,15}','Enter 11 digit mobile number')])
+    number = models.CharField(max_length=15, validators=[RegexValidator(r'^\d{10,15}','Enter 11 digit mobile number')])
     address = models.TextField(max_length=255, blank=True,null=True)
 
     # This wont display in the Django admin because we use Modeladmin list_display
@@ -41,7 +41,10 @@ class Supplier(models.Model):
     supplier_id  = models.AutoField(primary_key = True)
     supplier_name = models.CharField(max_length=255)
     #number = models.CharField(max_length=255)
-    number = models.CharField(max_length=11, validators=[RegexValidator(r'^\d{10,15}$','Enter mobile number')],)
+    #max_length=11 because of this we got error on creat a model in member app
+    #django.db.utils.DataError: (1406, "Data too long for column 'number' at row 1")
+
+    number = models.CharField(max_length=15, validators=[RegexValidator(r'^\d{10,15}$','Enter mobile number')],)
     email = models.EmailField(max_length=255, unique=False)
     address = models.TextField(max_length=255)
 
@@ -80,6 +83,7 @@ class Order(models.Model):
     product =models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
     order_date = models.DateTimeField(auto_now_add=True)
     order_quantity = models.IntegerField(blank=True,null=True)
+
     amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True )
 
