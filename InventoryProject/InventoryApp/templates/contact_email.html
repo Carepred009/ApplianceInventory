@@ -2,10 +2,12 @@
 
 {%block content%}
     <h1>Send Email</h1>
-
-    <form method="POST">
+<div class="container">
+        <form method="POST">
             {%csrf_token%}
             {{form.as_p}}
         <button type="submit" class="btn btn-primary">Submit Email</button>
     </form>
+</div>
+
 {%endblock%}

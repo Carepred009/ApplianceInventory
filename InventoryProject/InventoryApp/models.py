@@ -22,6 +22,7 @@ class Customer(models.Model):
     number = models.CharField(max_length=11, validators=[RegexValidator(r'^\d{10,15}','Enter 11 digit mobile number')])
     address = models.TextField(max_length=255, blank=True,null=True)
 
+    # This wont display in the Django admin because we use Modeladmin list_display
     def __str__(self):
         return self.first_name +" "+ self.last_name
 
