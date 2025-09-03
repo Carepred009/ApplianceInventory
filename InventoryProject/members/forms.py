@@ -1,7 +1,23 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import  User
+from .models import Profile
 from django import forms
 
+
+
+
+class UserProfile(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['profile_pic','position','date_hire','department'] #do not add the user foreign key
+
+    #for the current use the view will handle the current use
+        widgets = {
+                'position': forms.Select(attrs={'class':'form-control','placeholder':'Position'}),
+                'date_hire':forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+                'department':forms.Select(attrs={'class':'form-control','placeholder':'Department'})
+
+        }
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
