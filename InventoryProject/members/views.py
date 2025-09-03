@@ -30,7 +30,7 @@ class SignUpView(CreateView):
 
 
 class UserDetailView( DetailView):
-    model = User
+    model = Profile
     template_name = "profile/user_profile.html"
     context_object_name = "user_obj"
 

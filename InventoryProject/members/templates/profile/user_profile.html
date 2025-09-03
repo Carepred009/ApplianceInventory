@@ -1,13 +1,28 @@
 {%extends 'base.html'%}
 
-
-
 {{%block content%}
 
 <h1>Profile Page</h1>
 
-<h2>{{ user_obj.username }}</h2>
-<p>Email: {{ user_obj.email }}</p>
-<p>First name: {{ user_obj.first_name }}</p>
-<p>Last name: {{ user_obj.last_name }}</p>
+<div class="container mt-3">
+    <h2>Card Image</h2>
+    <p>Image at the top</p>
+    <div class="card" style="wid:400px">
+
+        {%if user_obj.profile_pic%}
+       <img src="{{ user_obj.profile_pic.url }}" class="card-img-top"
+                 alt="{{ user_obj.user.first_name }}" style="width:100%">
+        {%else%}
+            <p>NO image available</p>
+        {%endif%}
+        <div class="card-body">
+            <h4 class="card-title">{{user_obj.username}}</h4>
+            <p class="card-text">mail: {{ user_obj.email }}</p>
+            <p class="card-text">First name: {{ user_obj.first_name }}</p>
+            <p class="card-text">Last name: {{ user_obj.last_name }}</p>
+        </div>
+
+    </div>
+
+</div>
 {%endblock%}
