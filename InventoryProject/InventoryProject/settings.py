@@ -36,7 +36,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #'members.apps.MembersAdminConfig' ,# this will be the default  admin, not applicable for now
     'django.contrib.admin',
+    #'members.apps.MembersConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

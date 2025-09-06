@@ -17,11 +17,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+
 from  django.conf import settings
 from django.conf.urls.static import static
 
+#from members app admin
+from members.admin import members_site
+
 urlpatterns = [
+    # this the default admin,
+    # we use both default admin and custom admin
     path('admin/', admin.site.urls),
+
+    #this is the customize admin url from members app admin.py
+    path('members_admin/', members_site.urls),
+
     path('',include('InventoryApp.urls')),
     path('inventory/', include('InventoryApp.urls')),
 
@@ -32,3 +42,7 @@ urlpatterns = [
     path('members/', include('members.urls')),
 
 ]+ static(settings.MEDIA_URL, document_root =settings.MEDIA_ROOT)
+
+
+
+
