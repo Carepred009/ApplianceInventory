@@ -29,14 +29,20 @@ class SignUpView(CreateView):
         return super().form_invalid(form)
 
 
-class UserDetailView( DetailView):
+class UserDetailView(DetailView):
     model = Profile
     template_name = "profile/user_profile.html"
     context_object_name = "user_obj"
 
+    #now we can access the Profile model and the Foreing key of it including user Foreign key to User model
     def get_object(self):
+        return Profile.objects.get(user = self.request.user)
+
+    # returns the User model. if you use "user_obj" it will only access the User model in the admin
+    #def get_object(self):
         # This gives the current logged-in user instance
-        return self.request.user
+        #return self.request.user
+
 
 
 class UserProfileView(CreateView):

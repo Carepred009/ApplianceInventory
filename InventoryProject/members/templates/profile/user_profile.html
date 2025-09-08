@@ -9,18 +9,21 @@
     <p>Image at the top</p>
     <div class="card" style="wid:400px">
 
-        {%if user_obj.profile_pic%}
+        </div>     {%if user_obj.profile_pic%}
        <img src="{{ user_obj.profile_pic.url }}" class="card-img-top"
                  alt="{{ user_obj.user.first_name }}" style="width:100%">
         {%else%}
             <p>NO image available</p>
         {%endif%}
         <div class="card-body">
-            <h4 class="card-title">{{user_obj.username}}</h4>
-            <p class="card-text">mail: {{ user_obj.email }}</p>
-            <p class="card-text">First name: {{ user_obj.first_name }}</p>
-            <p class="card-text">Last name: {{ user_obj.last_name }}</p>
-        </div>
+            <h4 class="card-title">{{user_obj.user.username}}</h4>
+
+            <p class="card-text">mail: {{ user_obj.user.email }}</p>
+            <p class="card-text">First name: {{ user_obj.user.first_name }}</p>
+            <p class="card-text">Last name: {{ user_obj.user.last_name }}</p>
+             <p class="card-text">Position: {{user_obj.position.position }}</p>
+             <p class="card-text">Position: {{user_obj.department.department }}</p>
+            <p class="card-text">Date of Hire: {{user_obj.date_hire }}</p>
 
     </div>
 
