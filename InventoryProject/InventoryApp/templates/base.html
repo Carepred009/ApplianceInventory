@@ -22,8 +22,8 @@
     </button>
     <div class="collapse navbar-collapse" id="mynavbar">
       <ul class="navbar-nav me-auto">
-          {%if user.is_authenticated%}
 
+          {%if user.is_authenticated%}
 
              <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Add </a>
@@ -33,7 +33,8 @@
                   <li><a class="dropdown-item" href="{% url 'supplier'%}">Add Supplier</a></li>
                        <li><a class="dropdown-item" href="{% url 'product'%}">Add Product</a></li>
                   <li><a class="dropdown-item" href="{% url 'create_product_name'%}">Add Product Name</a></li>
-                  <li><a class="dropdown-item" href="{% url 'create_profile'%}">Add User Profile</a></li>
+                  <li><a class="dropdown-item" href="{% url 'create_profile'%}">Add Profile</a></li>
+
               </ul>
           </li>
 
@@ -91,8 +92,6 @@
               {% include "logout.html" %}
           </li>
 
-
-
           {%else%}
 
         <li class="nav-item">
@@ -101,6 +100,11 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'register' %}">Register</a>
         </li>
+
+          <li>
+              <a class="dropdown-item" href="{% url 'create_profile'%}">Add User Profile</a>
+          </li>
+
           {%endif%}
       </ul>
       <form class="d-flex" action="{% url 'search' %}" method="get">

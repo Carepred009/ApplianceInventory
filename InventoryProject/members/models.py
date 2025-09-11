@@ -1,14 +1,10 @@
 from tkinter.constants import CASCADE
-
 #WE need this model to access the right user and use the Profile model
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import AutoField
 
-
 # Create your models here.
-
-
 class Position(models.Model):
     position_id  = models.AutoField(primary_key = True)
     position  =  models.CharField(max_length=255, blank=True, null=True)
@@ -23,7 +19,6 @@ class Department(models.Model):
     def __str__(self):
         return self.department
 
-
 class Profile(models.Model):
     profile_id = models.AutoField(primary_key = True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -34,7 +29,7 @@ class Profile(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.user.username)
 
 
 

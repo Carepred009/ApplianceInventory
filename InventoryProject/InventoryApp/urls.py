@@ -6,7 +6,7 @@ from .views import (BaseView, CustomerView, CategoryView, SupplierView, ProductV
                     OrderAccept, OrderDisplay, SpecifiedProductView, CheckOutView,
                     CheckoutDisplayView, IncomingStocksView, SalesChartView, CustomerListView, SupplierListView,
                     SupplierUpdateView, SupplierDeleteView, CustomerUpdateView, CustomerDeleteView, EmailContactView, ProductNameView, PieChartView
-                    )  # SelectProductView, UpdateProductView   StockArrivalView #StockArrivalView
+                    )
 
 
 from django.contrib.auth import views as auth_views
@@ -36,8 +36,6 @@ urlpatterns = [
     path('customer_delete/<int:pk>/',CustomerDeleteView.as_view(), name="customers_delete"),
 
 
-
-
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
 
     path('search_result/',SearchResultView.as_view(), name="search"),
@@ -59,10 +57,8 @@ urlpatterns = [
 
     path('incoming/',IncomingStocksView.as_view(), name="incoming"),
 
-
     path('sales_chart/', SalesChartView.as_view(), name="sales_chart"),
     path('pie_chart/',PieChartView.as_view(), name="pie_chart"),
-
 
 
 ]

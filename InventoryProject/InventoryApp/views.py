@@ -16,18 +16,22 @@ from django.db.models import Sum, F, Q
 
 # Create your views here.
 
+#Sending email to subject/customer etc. Use FormView not Directly connected to Model
 class EmailContactView(FormView):
     template_name = 'contact_email.html'
     form_class = EmailForm
     success_url = reverse_lazy('send_email_success')
 
+    #single form form_valid()
     def form_valid(self, form):
         #this is from the form that we use in form_class
         sender_name = form.cleaned_data['sender_name']
         recipient_email = form.cleaned_data['recipient_email']
         message = form.cleaned_data['message']
 
+        #the subject of the email
         subject = f"New Email from {sender_name}"
+        #the message of the email
         full_message = f"From:{sender_name} <{recipient_email}> \n\n Messsage: \n {message}"
 
         send_mail(subject, full_message, settings.EMAIL_HOST_USER, [recipient_email])
@@ -35,27 +39,28 @@ class EmailContactView(FormView):
         return super().form_valid(form)
 
 
-
+#Display the Per product sold
 class SalesChartView(TemplateView):
     template_name = 'sales_chart.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # query the Checkout model
+        # Selects all from Checkout model
         checkouts = Checkout.objects.all()
 
         # gets the product_name from ProductName model because it FK and use for loop to get all data
+        #used for Charts.js PieChart
         context['labels'] = [checkout.product_name.product_name for checkout in checkouts]
         context['data']  = [checkout.checkout_quantity for checkout in checkouts]
         return context
 
+#Display the
 class PieChartView(TemplateView):
     template_name = 'PieCharts_stocks.html'
 
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
-
         #total_quantity = Product.objects.aggregate(Sum('quantity'))['quantity__sum'] or 0
 
         grouped_data = (
@@ -78,11 +83,13 @@ class CheckoutDisplayView(ListView):
     paginate_by = 10
     #ordering = []
 
+#Show the Detail or Specific order from Order model
 class CheckOutView(DetailView):
     model = Order
     template_name = 'check_out_details.html'
     context_object_name = 'checkouts'
 
+    #use post() if multiple action needed
     def post(self, request, *args, **kwargs):
         order = self.get_object() # we can use the variables in Order model with order.order_id example
         product = order.product # We can access Product model from Model by order.product but we must product.product_id example
@@ -131,6 +138,7 @@ class CheckOutView(DetailView):
         return redirect('order_display')
 
 
+#Displays the orders from Order model
 class OrderDisplay(ListView):
     model = Order
     template_name = 'order_display.html'
@@ -138,12 +146,15 @@ class OrderDisplay(ListView):
     paginate_by = 6 # Show 10 products per page
 
 
+#Accepts Orders and Insert into Order table
 class OrderAccept(CreateView):
     model = Order
     template_name = 'order.html'
     form_class = OrderForm
     success_url = reverse_lazy('order_display')
 
+    #Its use after creating new customer info. It will redirect to order.html
+    #the customer name will display automatically and then proceed to product additon
     def get_initial(self):
         initial = super().get_initial()
         customer_id = self.request.GET.get('customer_id')
@@ -174,13 +185,14 @@ class OrderAccept(CreateView):
 
         return super().form_valid(form)
 
+    #It will hide soon. Serve as guide of prices
     def get_context_data(self, **kwargs): # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         context = super().get_context_data(**kwargs)# # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         context['product_prices'] = {p.product_id: float(p.price) for p in Product.objects.all()} # para sa pag kwenta pila total amount and bayad by  amount = quantity* price
         return context
 
 
-
+#Search for products and clicks the desire product
 class SearchResultView(ListView):
     model = Stocks
     template_name = 'search.html'
@@ -194,7 +206,7 @@ class SearchResultView(ListView):
         else:
             return Stocks.objects.none() # Or `.all()` if you want to show everything by default
 
-
+#SHows the list of product that currently on stocks
 class StocksView(ListView):
     model = Stocks
     template_name = 'stocks_movement.html'
@@ -217,20 +229,13 @@ class StocksView(ListView):
         context['total_quantity'] = total_quantity
         return  context
 
-
-
-
-
-
-
-
-
+#Display only the newly inserted products. No update,edit and delete in this html
 class IncomingStocksView(ListView):
     model =  IncomingStocks
     template_name = 'incoming_stocks.html'
     context_object_name = 'incoming'
 
-
+#Display the by product name and its total
 class SpecifiedProductView(ListView):
     model = Product
     template_name = 'specified_product.html'
@@ -245,31 +250,34 @@ class SpecifiedProductView(ListView):
             .values('product_name__product_name')  # assuming ProductName model has a 'name' field
             .annotate(total_quantity=Sum('quantity'))
         )
-
         context['total_per_product'] = total_per_product
         return context
 
+#Create product to use in product insertion in Product model
 class ProductNameView(CreateView):
     model =  ProductName
     template_name = 'product_name.html'
     form_class = ProductNameForm
     success_url = reverse_lazy('home')
 
+    #Display message if successfully created
     def form_valid(self, form):
         messages.success(self.request,"Added Product Name Successfully")
         return super().form_valid(form)
 
-
+    #Display error when Error occur when inserting
     def form_invalid(self, form):
         messages.error(self.request,"Invalid Input")
         return super().form_invalid(form)
 
+#Inserts Product to the Database
 class ProductView(CreateView):
     model = Product
     template_name = 'product.html'
     form_class = ProductForm
     success_url = reverse_lazy('home')
 
+    #use form_valid() to display notification
     def form_valid(self, form):
         quantity = form.cleaned_data.get('quantity')
         price = form.cleaned_data.get('price')
@@ -286,6 +294,7 @@ class ProductView(CreateView):
 
         return super().form_valid(form)
 
+    # use form_valid() to display notification
     def form_invalid(self, form):
         messages.error(self.request, 'Error On Saving!')
         return super().form_invalid(form)
@@ -387,6 +396,7 @@ class CustomerDeleteView(DeleteView):
     def form_invalid(self, form):
         messages.error(self.request,'Error On Delete!')
         return super().form_invalid(form)
+
 #Update Customer
 class CustomerUpdateView(UpdateView):
     model = Customer
@@ -408,6 +418,7 @@ class CustomerListView(ListView):
     context_object_name = 'customers'
     paginate_by = 10
 
+#use TemplateView
 class BaseView(TemplateView):
     template_name = "home.html"
 

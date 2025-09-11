@@ -28,7 +28,6 @@ def create_incoming_stock(sender, instance,created, **kwargs):
         product_quantity = instance.quantity
         product_date = instance.transaction_date
 
-
         IncomingStocks.objects.create(
             product = instance,
             supplier = instance.supplier,
