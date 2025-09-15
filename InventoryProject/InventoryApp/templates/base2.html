@@ -13,35 +13,42 @@
 </head>
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <button type="button" class="navbar-toggle" data-bs-toggle="collapse" data-bs-target="#AppNavBar">
-           <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
+    <div class="wrapper">
+            <aside id="sidebar">
+                <div class="de-flex">
+                    <button id="toggle-btn" type="button">
+                        <i class="lni lni-grid-alt"></i>
+                    </button>
+                    <div class="side-bar-logo">
+                            <a href="#">Appliance Inventory</a>
+                    </div>
+                </div>
+                <ul class="side-bar-nav">
+                    <li class="sidebar-item">
+                        <a href="#" class="side-link">
+                            <i class="lni lni-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
 
-        <a class="navbar-brand" href="#HomePage">LOGO</a>
-
+                     <li class="sidebar-item">
+                        <a href="#" class="side-link">
+                            <i class="lni lni-agenda"></i>
+                            <span>Inventory</span>
+                        </a>
+                    </li>
+                    <li class="side-bar-item">
+                        <a href="#" class="sidebar-link has-dropdown collapsed" data-bs-toggle="collapse" data-bs-target="#auth"
+                        aria-expanded="false" aria-controls="auth">
+                            <i class="lni lni-protection"></i>
+                            <span>Auth</span>
+                        </a>
+                        <ul id="auth" class="sidebar-dropdown list-unstyled collapse"></ul>
+                    </li>
+                </ul>
+            </aside>
     </div>
 
-    <div class="collapse navbar-collapse" id="AppNavBar">
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#about">About</a></li>
-            <li><a href="#about">Services</a></li>
-            <li><a href="#about">Products</a></li>
-            <li><a href="#about">Location</a></li>
-            <li><a href="#about">Contact Us</a></li>
-        </ul>
-    </div>
-</nav>
-
-
-<div class="jumbotron text-center" >
-    <h1> HM BYTE Appliance Inventory</h1>
-
-</div>
 
 
 
