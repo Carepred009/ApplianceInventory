@@ -12,14 +12,18 @@
         <link rel="stylesheet" type="text/css" href="{%static 'css/containers.css'%}">
 </head>
 
-</head>
 <body>
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-  <div class="container-fluid">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+   <div class="navbar-header">
+
     <a class="navbar-brand" href="{% url 'home'%}">Logo</a>
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="mynavbar">
       <ul class="navbar-nav me-auto">
 
@@ -113,7 +117,9 @@
       </form>
     </div>
   </div>
+
 </nav>
+
         {%if user.is_authenticated%}
             <div class="container mt-3">
                     {% for message in messages %}

@@ -6,7 +6,7 @@
 .navbar .nav-link {
   font-family: "Courier New", Courier, monospace; /* Change font family */
   font-size: 1.25rem;                         /* Adjust font size */
-  font-weight: 500;                            /* Adjust font weight */
+  font-weight: 400;                            /* Adjust font weight */
   color: #fff;                                 /* Change font color */
 }
 
