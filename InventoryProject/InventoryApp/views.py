@@ -247,7 +247,7 @@ class SpecifiedProductView(ListView):
         # Group by product_name and sum quantity for each
         total_per_product = (
             Product.objects
-            .values('product_name__product_name')  # assuming ProductName model has a 'name' field
+            .values('product_name__product_name')  # assuming ProductName model has a 'product_name' field
             .annotate(total_quantity=Sum('quantity'))
         )
         context['total_per_product'] = total_per_product
