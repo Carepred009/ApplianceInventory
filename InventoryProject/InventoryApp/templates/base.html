@@ -14,20 +14,27 @@
 
 <body>
 
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
-   <div class="navbar-header">
 
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'home_design'%}">Logo</a>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="mynavbar">
-      <ul class="navbar-nav me-auto">
 
-          {%if user.is_authenticated%}
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+             {%if user.is_authenticated%}
 
              <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Add </a>
@@ -40,7 +47,7 @@
                   <li><a class="dropdown-item" href="{% url 'create_profile'%}">Add Profile</a></li>
 
               </ul>
-          </li>
+             </li>
 
                 <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Orders and Check Outs </a>
@@ -139,6 +146,21 @@
                     {% endfor %}
             </div>
                  {%endif%}
+
+
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid mt-3">
+  <h3>Navbar With Dropdown</h3>
+  <p>This example adds a dropdown menu in the navbar.</p>
+</div>
+
+
+
 
 
 {%block content%}
