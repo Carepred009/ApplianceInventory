@@ -11,10 +11,66 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap-grid.min.css"></link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <style>
+ <style>
+    .sidebar{
+        position: fixed;
+        top:0;
+        left:0;
+        height:100%;
+        width:200px;
+        padding-top:20px;
+        background-color:#00488b;
+        transition: width 0.3s;
+    }
 
+     .sidebar .nav-link {
+        display:flex;
+        align-items:center;
+        gap:20px;
+        padding:10px 20px;
+        color:#fff;
+
+     }
+
+     .sidebar .description {
+        font-size:20px;
+     }
+
+     .sidebar .nav-link:hover{
+        background-color:#d8a602;
+     }
+
+     .sidebar .sub-menu{
+        background-color:#023565;
+        padding-left:3%;
+     }
+
+     .main-content{
+        height: 100%;
+        margin-left:200px;
+        padding :20px;
+     }
+
+     @media(max-width:720px){
+        .sidebar {
+            width:60px;
+        }
+
+        .sidebar .description {
+            display:none;
+        }
+
+        .sidebar .nav-link {
+            justify-content:center;
+        }
+
+        .main-content {
+        margin-left:60px;
+        }
+     }
   </style>
 </head>
+
 <body>
 
 <div class="sidebar">
@@ -68,8 +124,21 @@
                 <span class="description">Inbound Stocks</span>
             </a>
         </div>
+        <a class="nav-link" href="#">
+            <span class="icon">
+                <i class="bi bi-gear"></i>
+            </span>
+            <span class="description">Setting</span>
+        </a>
     </nav>
 </div>
+
+<main class="main-content">
+    <h2>Appilance Inventory System</h2>
+    <p>Lorem ipsaweaw wae awe aw ewa wa
+    aeawea ew aw
+    aeawea we awe </p>
+</main>
 
 
 
