@@ -1,3 +1,4 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
@@ -11,63 +12,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap-grid.min.css"></link>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home3.css'%}">
  <style>
-    .sidebar{
-        position: fixed;
-        top:0;
-        left:0;
-        height:100%;
-        width:200px;
-        padding-top:20px;
-        background-color:#00488b;
-        transition: width 0.3s;
-    }
 
-     .sidebar .nav-link {
-        display:flex;
-        align-items:center;
-        gap:20px;
-        padding:10px 20px;
-        color:#fff;
-
-     }
-
-     .sidebar .description {
-        font-size:20px;
-     }
-
-     .sidebar .nav-link:hover{
-        background-color:#d8a602;
-     }
-
-     .sidebar .sub-menu{
-        background-color:#023565;
-        padding-left:3%;
-     }
-
-     .main-content{
-        height: 100%;
-        margin-left:200px;
-        padding :20px;
-     }
-
-     @media(max-width:720px){
-        .sidebar {
-            width:60px;
-        }
-
-        .sidebar .description {
-            display:none;
-        }
-
-        .sidebar .nav-link {
-            justify-content:center;
-        }
-
-        .main-content {
-        margin-left:60px;
-        }
-     }
   </style>
 </head>
 
@@ -93,37 +41,204 @@
             </span>
             <span class="description">Notification</span>
         </a>
+
         <!--- menu drop down -->
         <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu" aria-expanded="false"
         aria-controls="submenu">
             <span class="icon">
                 <i class="bi bi-box-seam"></i>
             </span>
-            <span class="description">Menu
+            <span class="description">Add Menu
                 <i class="bi bi-caret-down-fill"></i>
             </span>
         </a>
         <!-- submenu -->
         <div class="sub-menu collapse" id="submenu">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'customer'%}">
                 <span class="icon">
                     <i class="bi bi-file-earmark-check"></i>
                 </span>
-                <span class="description">Add Menu</span>
+                <span class="description" >Add Customer</span>
             </a>
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'category'%}">
                 <span class="icon">
                     <i class="bi bi-file-earmark-check"></i>
                 </span>
-                <span class="description">Charts</span>
+                <span class="description">Add Category</span>
             </a>
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{% url 'supplier'%}">
                 <span class="icon">
                     <i class="bi bi-file-earmark-check"></i>
                 </span>
-                <span class="description">Inbound Stocks</span>
+                <span class="description">Add Supplier</span>
             </a>
+             <a class="nav-link" href="{% url 'product'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Add Product</span>
+            </a>
+              <a class="nav-link" href="{% url 'create_product_name'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Add Product Name</span>
+            </a>
+            <a class="nav-link" href="{% url 'create_profile'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Add Profile</span>
+            </a>
+
         </div>
+
+         <!--- menu drop down 2 -->
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu1" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Orders and Checkouts
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+            <!-- sub menu 1 -->
+         <div class="sub-menu collapse" id="submenu1">
+
+            <a class="nav-link" href="{% url 'order-create'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Create Order</span>
+            </a>
+             <a class="nav-link" href="{% url 'order_display'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Display Order</span>
+            </a>
+             <a class="nav-link" href="{% url 'checkout_display'%}">
+                 <span>
+                     <i class="bi bi-file-earmark-check"></i>
+                 </span>
+                 <span class="description">Checkout Orders</span>
+             </a>
+
+         </div>
+
+
+        <!--- menu drop down 3 -->
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu2" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Check Inventory
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+         <!-- sub menu 3 -->
+         <div class="sub-menu collapse" id="submenu2">
+
+            <a class="nav-link" href="{% url 'stocks'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Inventory</span>
+            </a>
+             <a class="nav-link" href="{% url 'incoming'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Incoming Log</span>
+            </a>
+             <a class="nav-link" href="{% url 'search_stock'%}">
+                 <span>
+                     <i class="bi bi-file-earmark-check"></i>
+                 </span>
+                 <span class="description">Stocks per Product</span>
+             </a>
+
+         </div>
+
+        <!--- menu drop down 4 -->
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu3" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Customer and Suppliers
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+         <!-- sub menu 4 -->
+         <div class="sub-menu collapse" id="submenu3">
+
+            <a class="nav-link" href="{% url 'customer_list'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >List of Customers</span>
+            </a>
+             <a class="nav-link" href="{% url 'supplier_list'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >List of Suppliers</span>
+            </a>
+
+         </div>
+
+           <!--- menu drop down 5 -->
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu4" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Mail
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+         <!-- sub menu 5 -->
+         <div class="sub-menu collapse" id="submenu4">
+
+            <a class="nav-link" href="{% url 'send_email'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Mail</span>
+            </a>
+
+         </div>
+
+           <!--- menu drop down 5 -->
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu5" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">User Profile
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+         <!-- sub menu 6 -->
+         <div class="sub-menu collapse" id="submenu5">
+
+            <a class="nav-link" href="{% url 'user_profile'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Profile</span>
+            </a>
+
+         </div>
+
+
         <a class="nav-link" href="#">
             <span class="icon">
                 <i class="bi bi-gear"></i>
