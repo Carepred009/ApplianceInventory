@@ -2,22 +2,22 @@
 
 {{%block content%}
 
-<h1>Profile Page</h1>
+
 
 <div class="container mt-3">
-    <h2>Card Image</h2>
-    <p>Image at the top</p>
-    <div class="card" style="wid:400px">
+    <h1>Profile Page</h1>
+
+    <div class="card" style="width:100px">
 
         </div>     {%if user_obj.profile_pic%}
        <img src="{{ user_obj.profile_pic.url }}" class="card-img-top"
-                 alt="{{ user_obj.user.first_name }}" style="width:100%">
+                 alt="{{ user_obj.user.first_name }}" style="width:20%">
         {%else%}
             <p>NO image available</p>
         {%endif%}
         <div class="card-body">
+            <br>
             <h4 class="card-title">{{user_obj.user.username}}</h4>
-
             <p class="card-text">mail: {{ user_obj.user.email }}</p>
             <p class="card-text">First name: {{ user_obj.user.first_name }}</p>
             <p class="card-text">Last name: {{ user_obj.user.last_name }}</p>
@@ -26,6 +26,6 @@
             <p class="card-text">Date of Hire: {{user_obj.date_hire }}</p>
 
     </div>
-
+    <br>
 </div>
 {%endblock%}
