@@ -1,165 +1,293 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Appliance Inventory System</title>
 
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-      <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
-      <link rel="stylesheet" type="text/css" href="{%static 'css/base.css'%}">
-        <link rel="stylesheet" type="text/css" href="{%static 'css/stocks_movement.css'%}">
-        <link rel="stylesheet" type="text/css" href="{%static 'css/containers.css'%}">
+
+  <meta charset="UTF-8">
+    <title>Side bar Navigation</title>
+    <link rel="stylesheet" href="https://cdn.lineicons.com/5.0/lineicons.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.13.1/font/bootstrap-icons.min.css" integrity="sha512-t7Few9xlddEmgd3oKZQahkNI4dS6l80+eGEzFQiqtyVYdvcSG2D3Iub77R20BdotfRPA9caaRkg1tyaJiPmO0g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home3.css'%}">
+
+
 </head>
 
 <body>
 
+<div class="sidebar">
+    <nav class="nav flex-column">
+        <a class="nav-link" href="{% url 'home'%}">
+            <span class="icon">
+                <i class="bi bi-grid"></i>
+            </span>
+            <span class="description">Dashboard</span>
+        </a>
+        <a class="nav-link" href="#">
+            <span class="icon">
+                <i class="bi bi-clipboard-check"></i>
+            </span>
+            <span class="description">Post</span>
+        </a>
+        <a class="nav-link" href="#">
+            <span class="icon">
+                <i class="bi bi-bell"></i>
+            </span>
+            <span class="description">Notification</span>
+        </a>
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'home_design'%}">Logo</a>
-      <a class="navbar-brand" href="{% url 'home_design3'%}">Home design 3</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <!--- menu drop down -->
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Add Menu
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+        <!-- submenu -->
+        <div class="sub-menu collapse" id="submenu">
+            <a class="nav-link" href="{% url 'customer'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Add Customer</span>
+            </a>
+            <a class="nav-link" href="{% url 'category'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Add Category</span>
+            </a>
+            <a class="nav-link" href="{% url 'supplier'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Add Supplier</span>
+            </a>
+             <a class="nav-link" href="{% url 'product'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Add Product</span>
+            </a>
+              <a class="nav-link" href="{% url 'create_product_name'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Add Product Name</span>
+            </a>
+            <a class="nav-link" href="{% url 'create_profile'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description">Add Profile</span>
+            </a>
 
+        </div>
 
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-             {%if user.is_authenticated%}
+         <!--- menu drop down 2 -->
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu1" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Orders and Checkouts
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+            <!-- sub menu 1 -->
+         <div class="sub-menu collapse" id="submenu1">
 
-             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Add </a>
-              <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'customer' %}">Add Customer</a></li>
-                  <li><a class="dropdown-item" href="{% url 'category' %}">Add Category</a></li>
-                  <li><a class="dropdown-item" href="{% url 'supplier'%}">Add Supplier</a></li>
-                       <li><a class="dropdown-item" href="{% url 'product'%}">Add Product</a></li>
-                  <li><a class="dropdown-item" href="{% url 'create_product_name'%}">Add Product Name</a></li>
-                  <li><a class="dropdown-item" href="{% url 'create_profile'%}">Add Profile</a></li>
+            <a class="nav-link" href="{% url 'order-create'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Create Order</span>
+            </a>
+             <a class="nav-link" href="{% url 'order_display'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Display Order</span>
+            </a>
+             <a class="nav-link" href="{% url 'checkout_display'%}">
+                 <span>
+                     <i class="bi bi-file-earmark-check"></i>
+                 </span>
+                 <span class="description">Checkout Orders</span>
+             </a>
 
-              </ul>
-             </li>
-
-                <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Orders and Check Outs </a>
-              <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'order-create' %}">Create Order</a></li>
-                  <li><a class="dropdown-item" href="{% url 'order_display' %}">Display Orders</a></li>
-                  <li><a class="dropdown-item" href="{% url 'checkout_display'%}">Checkout Orders</a></li>
-              </ul>
-          </li>
-
-                <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Check Stocks </a>
-              <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'stocks' %}">Check Inventory</a></li>
-                  <li><a class="dropdown-item" href="{% url 'incoming'%}">Incoming Log</a></li>
-                   <li><a class="dropdown-item" href="{% url 'search_stock'%}">Stocks per Product</a></li>
-              </ul>
-          </li>
-
-                <li class="nav-iem dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Charts </a>
-              <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'sales_chart' %}">Sales Charts</a></li>
-                  <li><a class="dropdown-item" href="{% url 'pie_chart'%}">Pie Chart Inventory</a></li>
-              </ul>
-          </li>
-
-           <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Customers and Suppliers</a>
-              <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'customer_list' %}">List of Customers</a></li>
-                   <li><a class="dropdown-item" href="{% url 'supplier_list' %}">List of Suppliers</a></li>
-              </ul>
-          </li>
-
-          <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Emails</a>
-              <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'send_email' %}">Contact Email</a></li>
-              </ul>
-
-
-          <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">User</a>
-              <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="{% url 'user_profile' %}">User Profile</a></li>
-
-              </ul>
-          </li>
-
-          </li>
-            <li class="nav-item">
-              {% include "logout.html" %}
-          </li>
-
-          {%else%}
-
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'login' %}">Log in</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'register' %}">Register</a>
-        </li>
-
-          <li>
-              <a class="dropdown-item" href="{% url 'create_profile'%}">Add User Profile</a>
-          </li>
-
-           <li>
-              <a class="dropdown-item" href="{% url 'home_design'%}">New home design</a>
-          </li>
-
-          {%endif%}
-      </ul>
-      <form class="d-flex" action="{% url 'search' %}" method="get">
-        <input name="q" class="form-control me-2" type="text" placeholder="Search">
-        <button class="btn btn-primary" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-  </div>
-</nav>
-
-        {%if user.is_authenticated%}
-            <div class="container mt-3">
-                    {% for message in messages %}
-                      <div class="alert
-                                  {% if message.tags == 'error' %}alert-danger
-                                  {% elif message.tags == 'success' %}alert-success
-                                  {% elif message.tags == 'warning' %}alert-warning
-                                  {% else %}alert-info{% endif %}">
-                            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-                        {{ message }}
-
-                      </div>
-                    {% endfor %}
-            </div>
-                 {%endif%}
+         </div>
 
 
+        <!--- menu drop down 3 -->
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu2" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Check Inventory
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
 
-      </ul>
-    </div>
-  </div>
-</nav>
+         <!-- sub menu 3 -->
+         <div class="sub-menu collapse" id="submenu2">
 
-<div class="container-fluid mt-3">
-  <h3>Navbar With Dropdown</h3>
-  <p>This example adds a dropdown menu in the navbar.</p>
+            <a class="nav-link" href="{% url 'stocks'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Inventory</span>
+            </a>
+             <a class="nav-link" href="{% url 'incoming'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Incoming Log</span>
+            </a>
+             <a class="nav-link" href="{% url 'search_stock'%}">
+                 <span>
+                     <i class="bi bi-file-earmark-check"></i>
+                 </span>
+                 <span class="description">Stocks per Product</span>
+             </a>
+
+         </div>
+
+        <!--- menu drop down 4 -->
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu3" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Customer and Suppliers
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+         <!-- sub menu 4 -->
+         <div class="sub-menu collapse" id="submenu3">
+
+            <a class="nav-link" href="{% url 'customer_list'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >List of Customers</span>
+            </a>
+             <a class="nav-link" href="{% url 'supplier_list'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >List of Suppliers</span>
+            </a>
+
+         </div>
+
+           <!--- menu drop down 5 -->
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu4" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Mail
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+         <!-- sub menu 5 -->
+         <div class="sub-menu collapse" id="submenu4">
+
+            <a class="nav-link" href="{% url 'send_email'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Mail</span>
+            </a>
+
+         </div>
+
+           <!--- menu drop down 5 -->
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu5" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">User Profile
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+         <!-- sub menu 6 -->
+         <div class="sub-menu collapse" id="submenu5">
+
+            <a class="nav-link" href="{% url 'user_profile'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Profile</span>
+            </a>
+
+         </div>
+
+               <!--- menu drop down 6 -->
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu6" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Charts
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+         <!-- sub menu 7 -->
+         <div class="sub-menu collapse" id="submenu6">
+
+            <a class="nav-link" href="{% url 'sales_chart'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Sales Charts</span>
+            </a>
+
+               <a class="nav-link" href="{% url 'pie_chart'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Chart Inventory</span>
+            </a>
+
+         </div>
+
+
+        <a class="nav-link" href="#">
+            <span class="icon">
+                <i class="bi bi-gear"></i>
+            </span>
+            <span class="description">Setting</span>
+        </a>
+    </nav>
 </div>
 
+<main class="main-content">
+    <h2>Appilance Inventory System</h2>
+    <p>Lorem ipsaweaw wae awe aw ewa wa
+    aeawea ew aw
+    aeawea we awe </p>
+</main>
 
 
 
@@ -172,10 +300,13 @@
 
 {% endblock %}
 
-<script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
-<!---
-<script src="{% static 'js/chart.umd.min.js' %}"></script>
-<script src="{% static 'js/charts.js' %}"></script>
+<!--
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous">
+
+</script>
 -->
+ <script src="{% static 'js/bootstrap.bundle.min.js'%}"></script>
+
 </body>
 </html>

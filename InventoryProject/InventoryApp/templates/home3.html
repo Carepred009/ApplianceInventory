@@ -14,12 +14,11 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/home3.css'%}">
- <style>
 
-  </style>
 </head>
 
 <body>
+
 
 <div class="sidebar">
     <nav class="nav flex-column">
@@ -234,6 +233,36 @@
                     <i class="bi bi-file-earmark-check"></i>
                 </span>
                 <span class="description" >Profile</span>
+            </a>
+
+         </div>
+
+               <!--- menu drop down 6 -->
+          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu6" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Charts
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+         <!-- sub menu 7 -->
+         <div class="sub-menu collapse" id="submenu6">
+
+            <a class="nav-link" href="{% url 'sales_chart'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Sales Charts</span>
+            </a>
+
+               <a class="nav-link" href="{% url 'pie_chart'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Chart Inventory</span>
             </a>
 
          </div>

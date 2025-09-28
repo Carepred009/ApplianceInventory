@@ -3,10 +3,11 @@
 
 {%block content%}
 
-<h1>THE TOTAL Stocks in Inventory: {{total_quantity}}</h1>
-<h1> Stocks Movement</h1>
+
         {%if user.is_authenticated%}
     <div class="container">
+        <h1>THE TOTAL Stocks in Inventory: {{total_quantity}}</h1>
+            <h1> Stocks Movement</h1>
         <div class="table-responsive">
             <div class="form-group">
                         <TABLE class="table table-stripped">

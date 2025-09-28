@@ -15,7 +15,7 @@ urlpatterns = [
     path('',BaseView.as_view(), name="home"),
 
     #without using view in the views.py
-    path('home_design/',TemplateView.as_view(template_name='home2.html'), name="home_design"),
+    #path('home_design/',TemplateView.as_view(template_name='home2.html'), name="home_design"),
     path('home_design3/', TemplateView.as_view(template_name="home3.html"), name="home_design3"),
 
     path('send_email/', EmailContactView.as_view(), name="send_email"),
