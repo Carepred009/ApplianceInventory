@@ -4,9 +4,11 @@
 
 {%block content%}
 
-<h1> Your PROFILE!</h1>
-<h1><strong>Add some info here: {{current_user.username}}</strong></h1>
 <div class="container">
+
+<h1> Addtional information for PROFILE!</h1>
+    <br>
+<h1><strong>Add some info here: {{current_user.username}}</strong></h1>
     <form method="POST" enctype="multipart/form-data">
         {%csrf_token%}
         {{form.as_p}}
