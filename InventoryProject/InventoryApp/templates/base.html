@@ -46,6 +46,8 @@
             <span class="description">Notification</span>
         </a>
 
+        {% if user.is_authenticated%}
+
         <!--- menu drop down -->
         <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu" aria-expanded="false"
         aria-controls="submenu">
@@ -243,7 +245,7 @@
          </div>
 
                <!--- menu drop down 6 -->
-          <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu6" aria-expanded="false"
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu6" aria-expanded="false"
         aria-controls="submenu">
             <span class="icon">
                 <i class="bi bi-box-seam"></i>
@@ -273,16 +275,61 @@
          </div>
 
 
-        <a class="nav-link" href="#">
+         <a class="nav-link" href="#">
             <span class="icon">
                 <i class="bi bi-gear"></i>
             </span>
-            <span class="description">Setting</span>
+            <span class="description">
+                 </li>
+            <li class="nav-item">
+              {% include "logout.html" %}
+          </li>
+            </span>
         </a>
+
+     {%else%}
+        <!--- menu drop down 7 -->
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu7" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">Register And Log in
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+
+           <!-- sub menu 8 Register or log in -->
+        <div class="sub-menu collapse" id="submenu7">
+
+            <!--LOG IN -->
+            <a class="nav-link" href="{% url 'login'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >LOG IN</span>
+            </a>
+
+            <!--register -->
+            <a class="nav-link" href="{% url 'register'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Register</span>
+            </a>
+        </div>
+
+
+
+
+        {%endif%}
+
     </nav>
 </div>
 
 <main class="main-content">
+
 </main>
 
 
