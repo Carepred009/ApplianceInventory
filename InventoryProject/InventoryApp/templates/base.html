@@ -19,6 +19,8 @@
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" type="text/css" href="{% static 'css/home3.css'%}">
+    <!-- For sending Email -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/email_send/email_send.css'%}">
 
 
 </head>
@@ -244,7 +246,7 @@
 
          </div>
 
-               <!--- menu drop down 6 -->
+        <!--- menu drop down 6 -->
         <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu6" aria-expanded="false"
         aria-controls="submenu">
             <span class="icon">
@@ -275,15 +277,46 @@
          </div>
 
 
+         <!--- menu drop down 6  Log out -->
+        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#submenu8" aria-expanded="false"
+        aria-controls="submenu">
+            <span class="icon">
+                <i class="bi bi-box-seam"></i>
+            </span>
+            <span class="description">User
+                <i class="bi bi-caret-down-fill"></i>
+            </span>
+        </a>
+
+         <!-- sub menu 7 -->
+         <div class="sub-menu collapse" id="submenu8">
+
+            <a class="nav-link" href="{% url 'user_profile'%}">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </span>
+                <span class="description" >Profile</span>
+            </a>
+
+               <a class="nav-link" href="">
+                <span class="icon">
+                    <i class="bi bi-file-earmark-check">
+                    </i>
+                </span>
+                <span class="description" >  {% include "logout.html" %}</span>
+            </a>
+
+         </div>
+
+
+
+
          <a class="nav-link" href="#">
             <span class="icon">
                 <i class="bi bi-gear"></i>
             </span>
             <span class="description">
-                 </li>
-            <li class="nav-item">
-              {% include "logout.html" %}
-          </li>
+
             </span>
         </a>
 

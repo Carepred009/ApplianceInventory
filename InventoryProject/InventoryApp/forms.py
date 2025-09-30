@@ -4,11 +4,12 @@ from django.core.validators import RegexValidator
 
 from .models import Customer, Category, Supplier, Product, Order, Checkout, ProductName
 
-
+#For sending Email from the System
 class EmailForm(forms.Form):
-   sender_name = forms.CharField(max_length=255)
+   sender_name = forms.CharField(label="Your Name",max_length=255 )
    recipient_email =  forms.EmailField(label="Recipient Email")
-   message = forms.CharField(widget=forms.Textarea)
+   message = forms.CharField(widget=forms.Textarea, label="Type your message")
+
 
 
 class CustomerForm(forms.ModelForm):
@@ -23,6 +24,7 @@ class CustomerForm(forms.ModelForm):
             'number':forms.TextInput(attrs={'class':'form-control','placeholder':'Enter 11 digits mobile number'}),
             'address': forms.Textarea(attrs={'class':'form-control','placeholder':'Address'}),
         }
+
 
 class CategoryForm(forms.ModelForm):
     class Meta:
