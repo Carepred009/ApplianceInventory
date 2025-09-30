@@ -11,12 +11,21 @@ class EmailForm(forms.Form):
    message = forms.CharField(widget=forms.Textarea, label="Type your message")
 
 
-
+#Testing for crispy-bootstrap5
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ('first_name','last_name','email','number','address')
+        widgets = {
+            'first_name': forms.TextInput(attrs={ 'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Last Name'}),
+            'email': forms.EmailInput(attrs={ 'placeholder': 'Email'}),
+            'number': forms.TextInput(attrs={'placeholder': 'Enter 11 digits mobile number'}),
+            'address': forms.Textarea(attrs={ 'placeholder': 'Address'}),
+        }
 
+        '''
+        
         widgets = {
             'first_name': forms.TextInput(attrs={'class':'form-control','placeholder':'First Name'}),
             'last_name':forms.TextInput(attrs={'class':'form-control','placeholder':'Last Name'}),
@@ -24,6 +33,7 @@ class CustomerForm(forms.ModelForm):
             'number':forms.TextInput(attrs={'class':'form-control','placeholder':'Enter 11 digits mobile number'}),
             'address': forms.Textarea(attrs={'class':'form-control','placeholder':'Address'}),
         }
+        '''
 
 
 class CategoryForm(forms.ModelForm):

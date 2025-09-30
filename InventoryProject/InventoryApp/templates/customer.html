@@ -1,16 +1,25 @@
 {% extends 'base.html'%}
+{%block title%}Create Customer {%endblock%}
+
+{% load crispy_forms_tags static %} <!-- load the link from static folder including css-->
+
+{%block extra_css%}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/create_customer/create_customer.css'%}">
+{%endblock%}
 
 
 {%block content%}
-    <div class="container">
+<div class="container">
+    <div class="form-container">
         <h1>Create Customer</h1>
-        <div class="form-group">
-            <form method="POST">
-            {%csrf_token%}
-            {{form.as_p}}
 
-            <button class="btn btn-primary">Submit Customer Info</button>
-            </form>
-        </div>
+                <form method="POST">
+                {%csrf_token%}
+                {{form|crispy}}
+
+                <button class="btn btn-primary custom-btn">Submit Customer Info</button>
+                </form>
     </div>
+</div>
+
 {%endblock%}
