@@ -35,16 +35,25 @@ class CustomerForm(forms.ModelForm):
         }
         '''
 
-
+#Testing crispy-bootstrap5
+# Edit and update in add_category_branch
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ('category_name','description')
 
         widgets = {
+                'category_name':forms.TextInput(attrs={'placeholder':'Category Name'}),
+                'description':forms.TextInput(attrs={'placeholder':'Description'})
+        }
+        '''
+        Remove it before deployment
+          widgets = {
                 'category_name':forms.TextInput(attrs={'class':'form-control','placeholder':'Category Name'}),
                 'description':forms.TextInput(attrs={'class':'form-control','placeholder':'Description'})
         }
+        '''
+
 
 class SupplierForm(forms.ModelForm):
     class Meta:
