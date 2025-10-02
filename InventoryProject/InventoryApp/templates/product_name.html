@@ -1,14 +1,20 @@
 {%extends 'base.html'%}
 
+{%load crispy_forms_tags static%}
 
+{% block extra_css%}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/add_product_name/add_product_name.css'%}">
+{%endblock%}
 
 {%block content%}
-  <div class="container">
-      <h1> Add Porduct Name</h1>
+<div class="container">
+  <div class="container-form">
+      <h1> Add Product Name</h1>
       <form method="POST">
         {%csrf_token%}
-        {{form.as_p}}
-        <button class="btn btn-primary">Create Product Name</button>
+        {{form|crispy}}
+        <button class="btn btn-primary customer-btn">Create Product Name</button>
       </form>
   </div>
+</div>
 {%endblock%}

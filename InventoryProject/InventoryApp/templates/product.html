@@ -1,17 +1,24 @@
 {% extends 'base.html'%}
 
+{%load crispy_forms_tags static%}
+
+{%block extra_css%}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/add_product/add_product.css'%}">
+{%endblock%}
 
 {%block content%}
-    <div class="container">
+<div class="container">
+    <div class="container-form">
         <h1>Add Product</h1>
         <br>
-        <div class="form-group">
+
             <form method="POST" enctype="multipart/form-data">
             {%csrf_token%}
-            {{form.as_p}}
+            {{form|crispy}}
 
-            <button class="btn btn-primary">Add Product Info</button>
+            <button class="btn btn-primary custom-btn">Add Product Info</button>
             </form>
-        </div>
+
     </div>
+</div>
 {%endblock%}
