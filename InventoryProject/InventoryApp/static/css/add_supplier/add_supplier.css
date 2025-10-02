@@ -1,0 +1,51 @@
+
+body{
+    background-color: #f0f4f8; /* light gray-blue */
+}
+
+.form-container{
+    max-with:500px;
+    margin:50px;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    font-family:Aria;, sans-serif;
+    background-color: #F1F5F9;
+}
+
+.form-container h1{
+    text-align: center;
+    margin-bottom:20px;
+    color:#333;
+    font-weight:bold;
+}
+
+/* Override Bootstrap input fields */
+
+.form-control {
+    border-radius:10px;
+    padding:12px;
+    font-size:15px;
+    transition:0.3s;
+}
+
+.form-control:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 6px rgba(74, 144, 226, 0.4);
+}
+
+/* Custom button */
+.custom-btn {
+    width: 30%;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px;
+
+}
+/* Style all form labels */
+.form-label{
+    font-weight:bold;
+    font-size:20px;
+    color: #2795F5;
+}

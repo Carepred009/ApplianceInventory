@@ -61,12 +61,20 @@ class SupplierForm(forms.ModelForm):
         fields = ('supplier_name','number','email','address')
 
         widgets  = {
+            'supplier_name': forms.TextInput(attrs={'placeholder':'Supplier Name'}),
+           'number':forms.TextInput(attrs={'placeholder':'Phone Number'}),
+            'email':forms.EmailInput(attrs={'placeholder':'Suppliers Email'}),
+            'address':forms.Textarea(attrs={'placeholder':'Supplier Address'})
+        }
+
+        '''
+         widgets  = {
             'supplier_name': forms.TextInput(attrs={'class':'form-control','placeholder':'Supplier Name'}),
            'number':forms.TextInput(attrs={'class':'form-control','placeholder':'Phone Number'}),
             'email':forms.EmailInput(attrs={'class':'form-control','placeholder':'Suppliers Email'}),
             'address':forms.Textarea(attrs={'class':'form-control','placeholder':'Supplier Address'})
         }
-
+        '''
 
 class ProductForm(forms.ModelForm):
     class Meta:
@@ -74,6 +82,17 @@ class ProductForm(forms.ModelForm):
         fields = ['product_name','product_description','quantity','price','category','supplier','product_image']
 
         widgets = {
+            'product_name':forms.Select(attrs={'placeholder':'Product Name'}),
+            'product_description':forms.TextInput(attrs={'placeholder':'Product Description'}),
+            'quantity': forms.NumberInput(attrs={'min': 1, 'max': 10000}),             # ✅ Correct
+            'category':forms.Select(attrs={'placeholder':'Select Category'}),
+            'supplier': forms.Select(attrs={'placeholder':'Select Supplier'}),
+            'transaction_date':forms.DateTimeInput(attrs={'type':'datetime-local'}),
+
+        }
+
+        '''
+             widgets = {
             'product_name':forms.Select(attrs={'class':'form-control','placeholder':'Product Name'}),
             'product_description':forms.TextInput(attrs={'class':'form-control','placeholder':'Product Description'}),
             'quantity': forms.NumberInput(attrs={'class': 'form-control', 'min': 1, 'max': 10000}),             # ✅ Correct
@@ -82,6 +101,8 @@ class ProductForm(forms.ModelForm):
             'transaction_date':forms.DateTimeInput(attrs={'type':'datetime-local'}),
 
         }
+        '''
+
 
 class OrderForm(forms.ModelForm):
     class Meta:
@@ -103,10 +124,15 @@ class ProductNameForm(forms.ModelForm):
         fields = ['product_name']
 
         widgets = {
+            "product_name":forms.TextInput(attrs={'placeholder':'Product Name'})
+        }
+
+        '''
+        widgets = {
             "product_name":forms.TextInput(attrs={'class':'form-control','placeholder':'Product Name'})
 
         }
-
+        '''
 
 
 
