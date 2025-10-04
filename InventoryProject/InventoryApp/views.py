@@ -34,7 +34,7 @@ class EmailContactView(FormView):
         #the message of the email
         full_message = f"From:{sender_name} <{recipient_email}> \n\n Messsage: \n {message}"
 
-        send_mail(subject, full_message, settings.EMAIL_HOST_USER, [recipient_email])
+        send_mail(subject, full_message, settings.DEFAULT_FROM_EMAIL, [recipient_email])
 
         return super().form_valid(form)
 
