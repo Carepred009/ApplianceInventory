@@ -2,19 +2,38 @@
 
 {%block title%} Create a Profile Page {%endblock%}
 
+{% load crispy_forms_tags static%}
+
+
+{% block extra_css%}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/additional_info/additional_info.css'%}">
+{%endblock%}
+
+
 {%block content%}
 
-<div class="container">
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="col-md-6 col-lg-5 col-sm-10">
+        <div class="card shadow-lg border-0 rounded-4 p-4">
+            <h2 class="text-center mb-3 text-primary fw-bold">Profile Additional Information</h2>
 
-<h1> Addtional information for PROFILE!</h1>
-    <br>
-<h1><strong>Add some info here: {{current_user.username}}</strong></h1>
-    <form method="POST" enctype="multipart/form-data">
-        {%csrf_token%}
-        {{form.as_p}}
+            <p class="text-center text-muted mb-4">
+                    <strong>Add some info here: {{current_user.username}}</strong>
+            </p>
+             <form method="POST" enctype="multipart/form-data">
+                   {%csrf_token%}
+                   {{form|crispy}}
 
-        <button class="btn btn-primary">Create Profile</button>
-    </form>
+                 <button class="btn btn-primary w-100 py-2 mt-2">Submit Additional Information</button>
+              </form>
+
+        </div>
+
+
+    </div>
+
+
+
 </div>
 
 {%endblock%}

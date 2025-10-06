@@ -13,11 +13,24 @@ class UserProfile(forms.ModelForm):
 
     #for the current use the view will handle the current use
         widgets = {
+                'position': forms.Select(attrs={'placeholder':'Position'}),
+                'date_hire':forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+                'department':forms.Select(attrs={'placeholder':'Department'})
+
+        }
+
+'''
+   #for the current use the view will handle the current use
+        widgets = {
                 'position': forms.Select(attrs={'class':'form-control','placeholder':'Position'}),
                 'date_hire':forms.DateTimeInput(attrs={'type': 'datetime-local'}),
                 'department':forms.Select(attrs={'class':'form-control','placeholder':'Department'})
 
         }
+
+'''
+
+
 
 #for crispy form
 class SignUpForm(UserCreationForm):
