@@ -1,17 +1,46 @@
+
 {%extends 'base.html'%}
 
 
-{%block content%}
-<div class="container mt-3">
-    <h1>Log in</h1>
-  <div class="form-group">
-      <form method="POST">
-      {%csrf_token%}
-        {{form.as_p}}
-            <button class="btn btn-primary">LOG IN</button>
-          </form>
-  </div>
+{% load crispy_forms_tags static %} <!-- load the link from static folder including css-->
 
-</div>
+{% block extra_css%}
+     <link rel="stylesheet" type="text/css" href="{% static 'css/design_login/design_login.css'%}">
+{%endblock%}
+
+{%block content%}
+
+
+
+    <div class="container mt-5 d-flex justify-content-center">
+
+        <div class="col-md-4 col-sm-8">
+            <h2 class="text-center mb-4">Log in</h2>
+
+            <!-- Display error message -->
+            {%if form.errors%}
+                <div class="alert alert-danger">
+                    <p>Invalid username or password. Please try again!</p>
+                </div>
+            {%endif%}
+
+          <!-- Log in form-->
+          <form method="POST" class="shadow p-4 rounded bg-light">
+              {%csrf_token%}
+              {{form.as_p}}
+              <div class="text-center">
+                  <button type="submit" class="btn btn-primary w-50 mt-3">LOG IN</button>
+              </div>
+          </form>
+
+            <!-- Optional link for signup -->
+          <div class="text-center mt-3">
+                <p>Don't have an account?
+                    <a href="{% url 'register'%}">Sign up</a>
+                </p>
+          </div>
+
+        </div>
+    </div>
 
 {%endblock%}
