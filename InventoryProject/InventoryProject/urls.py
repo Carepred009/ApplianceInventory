@@ -22,7 +22,7 @@ from  django.conf import settings
 from django.conf.urls.static import static
 
 #from members app admin
-from members.admin import members_site
+#from members.admin import members_site
 
 urlpatterns = [
     # this the default admin,
@@ -30,7 +30,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     #this is the customize admin url from members app admin.py
-    path('members_admin/', members_site.urls),
+    #path('members_admin/', members_site.urls),
 
     path('',include('InventoryApp.urls')),
     path('inventory/', include('InventoryApp.urls')),
