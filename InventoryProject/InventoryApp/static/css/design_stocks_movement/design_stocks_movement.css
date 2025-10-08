@@ -1,0 +1,63 @@
+/* Simple, modern look for inventory tables */
+.table {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.table thead th {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+.table tbody tr:hover {
+    background-color: #f9fbff;
+    transition: background-color 0.3s ease;
+}
+
+h2, h4 {
+    letter-spacing: 0.5px;
+}
+
+.img-thumbnail {
+    border: 2px solid #dee2e6;
+    border-radius: 0.5rem;
+}
+
+
+/ *  for paginatior */
+
+.pagination-container {
+    font-family: 'Poppins', sans-serif;
+}
+
+.pagination {
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+.page-link {
+    color: #5563DE;
+    border: 1px solid #dee2e6;
+    padding: 0.5rem 0.9rem;
+    transition: all 0.2s ease-in-out;
+    font-weight: 500;
+}
+
+.page-link:hover {
+    background-color: #5563DE;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+.page-item.active .page-link {
+    background-color: #5563DE;
+    color: #fff;
+    border-color: #5563DE;
+}
+
+.page-item.disabled .page-link {
+    color: #999;
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+}
