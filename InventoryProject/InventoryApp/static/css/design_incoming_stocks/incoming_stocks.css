@@ -1,0 +1,27 @@
+.card {
+    background-color: #ffffff;
+  }
+
+  .card-header {
+    background: linear-gradient(90deg, #5563de, #7280ff);
+  }
+
+  .table thead th {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .table-hover tbody tr:hover {
+    background-color: #f1f4ff;
+    transition: background-color 0.3s ease;
+  }
+
+  .fw-semibold {
+    font-weight: 600;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+    letter-spacing: 0.5px;
+  }

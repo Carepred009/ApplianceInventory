@@ -234,6 +234,7 @@ class IncomingStocksView(ListView):
     model =  IncomingStocks
     template_name = 'incoming_stocks.html'
     context_object_name = 'incoming'
+    paginate_by = 5 #show 6 rows of result per page number
 
 #Display the by product name and its total
 class SpecifiedProductView(ListView):

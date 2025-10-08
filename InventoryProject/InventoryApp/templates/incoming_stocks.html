@@ -1,6 +1,104 @@
 {%extends 'base.html'%}
 
+{%load crispy_forms_tags static%}
+
+{%block extra_css%}
+    <link rel="stylesheet" type="text/css" href="{%static 'design_incoming_stocks/incoming_stocks.css '%}">
+{%endblock%}
+
+
 {%block content%}
+
+<!-- new_arrived_stocks.html -->
+<div>
+<div class="container mt-5">
+  <div class="card shadow-lg border-0 rounded-4">
+    <div class="card-header bg-primary text-white text-center rounded-top-4 py-3">
+      <h2 class="mb-0">📦 New Arrived Stocks</h2>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle text-center">
+          <thead class="table-primary">
+            <tr>
+              <th>Product Name</th>
+              <th>Supplier Name</th>
+              <th>Quantity</th>
+              <th>Transaction Date</th>
+              <th>Sum all product</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for income in incoming %}
+            <tr>
+              <td class="fw-semibold">{{ income.product.product_name }}</td>
+              <td>{{ income.supplier.supplier_name }}</td>
+              <td>{{ income.incoming_count }}</td>
+              <td>{{ income.incoming_date }}</td>
+              <td>₱{{ income.product.price }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="text-muted py-4">No new stock arrivals yet.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <div class="pagination-container d-flex justify-content-center mt-4">
+    <nav aria-label="Page navigation">
+        <ul class="pagination shadow-sm">
+
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">« First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">‹ Prev</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">« First</span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">‹ Prev</span>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next ›</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last »</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next ›</span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">Last »</span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+</div>
+
+
+<!--
 <div class="container">
     <h1>New arrived Stocks</h1>
   <div class="form-group">
@@ -30,4 +128,7 @@
       </table>
   </div>
 </div>
+
+-->
+
 {%endblock%}
