@@ -1,29 +1,103 @@
 {%extends 'base.html'%}
 
+{% load crispy_forms_tags static %} <!-- load the link from static folder including css-->
+
+{%block extra_css%}
+ <link rel="stylesheet" type="text/css" href="{% static 'css/design_create_order/design_create_order.css'%}">
+{%endblock%}
+
 
 {%block content%}
 
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-3">
+        <div class="card-header bg-primary text-white text-center py-3">
+            <h3 class="mb-0">Create New Order</h3>
+        </div>
+
+        <div class="card-body p-4">
+            <form method="POST" class="mb-3">
+                {% csrf_token %}
+                {{ form|crispy }}
+
+                <div class="alert alert-info mt-3">
+                    <strong>Product Prices:</strong> {{ product_prices }}
+                </div>
+
+                <div class="mb-3">
+                    <p id="price-display" class="fw-bold fs-5 text-success mb-0">
+                        💰 Price per piece: <span id="price-value">0</span>
+                    </p>
+                </div>
+
+                <!-- Optional Total Field (Uncomment if you’ll use it later)
+                <div class="mb-3">
+                    <label for="amount-field" class="form-label">Total</label>
+                    <input type="text" id="amount-field" class="form-control" readonly>
+                </div>
+                -->
+
+                <div class="mt-4 text-muted">
+                    Logged in as: <strong>{{ request.user.username }}</strong>
+                </div>
+
+                <div class="text-end mt-4">
+                    <button class="btn btn-success px-4 py-2" type="submit">
+                        <i class="bi bi-check-circle"></i> Submit Order
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const productSelect = document.querySelector("#id_product"); // adjust to your field name
+    const priceDisplay = document.querySelector("#price-value");
+
+    const prices = {{ product_prices|safe }};
+
+    if (productSelect) {
+        productSelect.addEventListener("change", function() {
+            const selectedProduct = productSelect.value;
+            const price = prices[selectedProduct] || 0;
+            priceDisplay.textContent = price;
+            priceDisplay.parentElement.classList.add("updated");
+            setTimeout(() => priceDisplay.parentElement.classList.remove("updated"), 300);
+        });
+    }
+});
+</script>
+
+
+
+<!--
 <div class="container">
     <h1>Create Order : </h1>
-    <div class="form-group">
       <form method="POST">
         {%csrf_token%}
         {{form.as_p}}
-
           <pre>product_prices: {{ product_prices }}</pre>
 
             <p id="price-display">Price: 0</p>
 
-         <!-- Amount (readonly)
+         Amount (readonly)
               <p>Total: <input type="text" id="amount-field" readonly></p>
-            -->
+
           <p>LOGGED IN AS: {{request.user.username}}</p>
         <button class="btn btn-primary" type="submit">SUBMIT</button>
 
       </form>
-    </div>
 </div>
-{% block scripts %}
+
+-->
+
+<!--
+ {% block scripts %}
 
     {{ product_prices|json_script:"product-data" }}
 
@@ -51,6 +125,8 @@
         quantityInput.addEventListener('input', updateAmount);
     });
 </script>
+ -->
+
 {% endblock %}
 
 

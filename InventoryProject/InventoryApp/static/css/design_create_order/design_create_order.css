@@ -1,0 +1,15 @@
+.card {
+  max-width: 650px;
+  margin: auto;
+}
+#price-display {
+  transition: color 0.3s ease;
+}
+#price-display.updated {
+  color: #0d6efd;
+
+}
+
+body{
+    background-color: #f0f4f8; /* light gray-blue */
+}
