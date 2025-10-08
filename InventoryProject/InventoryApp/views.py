@@ -143,7 +143,7 @@ class OrderDisplay(ListView):
     model = Order
     template_name = 'order_display.html'
     #context_object_name = 'orders'  if Using pagination remove this and use the Django Built in page_obj
-    paginate_by = 6 # Show 10 products per page
+    paginate_by = 5 # Show 10 products per page
 
 
 #Accepts Orders and Insert into Order table

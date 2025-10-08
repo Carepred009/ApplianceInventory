@@ -1,22 +1,119 @@
 
 {%extends 'base.html'%}
+{%load crispy_forms_tags static%}
 
+{%block extra_css%}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/design_display_order/display_order.css'%}">
+{%endblock%}
 {%block content%}
-    <div class="container">
+<div class="container mt-5">
+
+  <div class="card-header bg-primary text-white text-center rounded-top-4 py-3">
+      <h2 class="mb-0">📦 Display Order</h2>
+    </div>
+
+  <div class="table-responsive shadow-sm p-3 bg-white rounded">
+    <table class="table table-hover align-middle text-center">
+      <thead class="table-primary">
+        <tr>
+          <th>ORDER ID</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Product Name</th>
+          <th>Order Date</th>
+          <th>Order Quantity</th>
+          <th>Product Price</th>
+          <th>Total Amount</th>
+          <th>Assigned Personnel</th>
+          <th>Checkout</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in page_obj %}
+        <tr>
+          <td>{{ order.order_id }}</td>
+          <td>{{ order.customer.first_name }}</td>
+          <td>{{ order.customer.last_name }}</td>
+          <td>{{ order.product.product_name }}</td>
+          <td>{{ order.order_date }}</td>
+          <td>{{ order.order_quantity }}</td>
+          <td>₱{{ order.product.price }}</td>
+          <td><strong>₱{{ order.amount }}</strong></td>
+          <td>{{ order.user }}</td>
+            <td>
+            <a href="{% url 'checkout' order.order_id %}" class="btn btn-sm btn-outline-primary checkout-btn" title="Check Out">
+              <i class="bi bi-cart-check-fill"></i>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="pagination-container d-flex justify-content-center mt-4">
+    <nav aria-label="Page navigation">
+        <ul class="pagination shadow-sm">
+
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">« First</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">‹ Prev</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">« First</span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">‹ Prev</span>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next ›</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last »</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next ›</span>
+                </li>
+                <li class="page-item disabled">
+                    <span class="page-link">Last »</span>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<!--
+ <div class="container">
         <h1>Order Display</h1>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
+                        <th>ORDER ID</th>
                         <th>First Name</th>
-                        <th>Last Name</th>
+                          <th>Last Name</th>
                           <th>Product Name</th>
                           <th>Order Date</th>
-                          <th>Order Quantity</th>
-                        <th>Order Price Per Piece</th>
-                          <th>Order Amount</th>
-                          <th>Personel</th>
-                        <th>Check Out</th>
+                        <th>Order Quantity</th>
+                          <th>Product Price</th>
+                          <th>Total Amount</th>
+                        <th>Assigned Personnel</th>
+                        <th>Checkout</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -53,6 +150,8 @@
 
         </div>
     </div>
+-->
+
 
 
 {%endblock%}
