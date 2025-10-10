@@ -1,9 +1,42 @@
 {%extends 'base.html'%}
 
+{%load crispy_forms_tags static%}
+
+{%block extra_css%}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/design_checkout/checkout_details.css'%}">
+{%endblock%}
 
 {%block content%}
 
-<div class="container">
+<div class="container mt-5">
+  <div class="card shadow-lg p-4 mx-auto" style="max-width: 600px;">
+    <h2 class="text-center mb-4 text-primary">🛒 Check Out Details</h2>
+
+    <form method="POST" action="{% url 'checkout' checkouts.pk %}">
+      {% csrf_token %}
+      <div class="checkout-details">
+        <p><strong>Order ID:</strong> {{ checkouts.order_id }}</p>
+        <p><strong>Customer Name:</strong> {{ checkouts.customer }}</p>
+        <p><strong>Product Name:</strong> {{ checkouts.product.product_name }}</p>
+        <p><strong>Order Date:</strong> {{ checkouts.order_date }}</p>
+        <p><strong>Order Quantity:</strong> {{ checkouts.order_quantity }}</p>
+        <p><strong>Total Amount:</strong> ₱{{ checkouts.amount }}</p>
+        <p><strong>Price per Product:</strong> ₱{{ checkouts.product.price }}</p>
+        <p><strong>System User:</strong> {{ checkouts.user }}</p>
+      </div>
+
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-success px-4 py-2">
+          <i class="bi bi-check-circle"></i> Confirm Order
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+<!--
+ <div class="container">
     <h1>Check Out Details</h1>
     <div class="form-group">
         <form method="POST" action="{% url 'checkout' checkouts.pk %}">
@@ -23,5 +56,8 @@
         </form>
     </div>
 </div>
+
+ -->
+
 
 {%endblock%}
