@@ -1,8 +1,14 @@
 from itertools import product
+from venv import create
 
 from django.db.models import F, Sum, DecimalField
+
 from django.db.models.signals import post_save, pre_save
 from  django.dispatch import receiver
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
+from django.conf import settings
+
 
 from .models import Product, Stocks, Customer, Order, IncomingStocks
 
@@ -35,6 +41,21 @@ def create_incoming_stock(sender, instance,created, **kwargs):
             incoming_date= product_date
 
         )
+
+#send email the new user by the email given
+@receiver(post_save,sender=User)
+def send_welcome_mail(sender, instance, created, **kwargs):
+    if created: #only send email for new users
+        subject = "Welcome to our Appliance Inventory System"
+        message = f"Hi {instance.username}, thank you for registering!"
+        sender_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [instance.email]
+
+        send_mail(subject,message,sender_email,recipient_list)
+        print("✅ Welcome email sent to: ", instance.email)
+
+
+
 
 
 
