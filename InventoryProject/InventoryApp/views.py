@@ -116,7 +116,7 @@ class CheckOutView(DetailView):
             message= f"Thank you for your Order, {order.customer.first_name}."
                       f"You bought {order.order_quantity} x {product.product_name}."
                         f"for a total of {order.amount}.",
-            from_email= "djangoproject583@gmail.com", #Use the email that for the store only
+            from_email= "djangoproject60@gmail.com", #Use the email that for the store only
             recipient_list=[order.customer.email], # get the customer email
             fail_silently= False,
         )
