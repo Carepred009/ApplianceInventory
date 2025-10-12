@@ -30,7 +30,8 @@ SECRET_KEY = config('THE_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['djangoproject1.pythonanywhere.com', 'www.djangoproject1.pythonanywhere.com']
+
 
 
 # Application definition
