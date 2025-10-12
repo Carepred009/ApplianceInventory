@@ -15,3 +15,7 @@ A web-based inventory management system for tracking appliances, stock levels, a
 - MySQL
 - HTML, CSS, Bootstrap 5
 - Chart.js
+- Crispy Forms.
+
+## Live Demo
+[https://DjangoProject1.pythonanywhere.com](https://DjangoProject1.pythonanywhere.com/)
