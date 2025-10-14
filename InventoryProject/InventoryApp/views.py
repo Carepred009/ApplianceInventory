@@ -4,10 +4,13 @@ from lib2to3.fixes.fix_input import context
 from django.conf import settings
 from django.contrib.messages import success
 from django.core.mail import send_mail
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 
+#User Permission
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.shortcuts import redirect
 
 from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout, IncomingStocks, ProductName
 from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm, EmailForm, ProductNameForm  #StockArrivalForm #ProductUpdateForm,
@@ -255,11 +258,17 @@ class SpecifiedProductView(ListView):
         return context
 
 #Create product to use in product insertion in Product model
-class ProductNameView(CreateView):
+class ProductNameView(PermissionRequiredMixin,CreateView):
     model =  ProductName
     template_name = 'product_name.html'
     form_class = ProductNameForm
     success_url = reverse_lazy('home')
+    permission_required = 'InventoryApp.add_product_name'
+
+    #show this message if the user doesnt have the permission
+    def handle_no_permission(self):
+        messages.error(self.request,"You are not allowed to access this function!")
+        return redirect('home') #or where even you want
 
     #Display message if successfully created
     def form_valid(self, form):
@@ -270,6 +279,10 @@ class ProductNameView(CreateView):
     def form_invalid(self, form):
         messages.error(self.request,"Invalid Input")
         return super().form_invalid(form)
+
+
+
+
 
 #Inserts Product to the Database
 class ProductView(CreateView):
@@ -301,11 +314,14 @@ class ProductView(CreateView):
         return super().form_invalid(form)
 
 #create Supplier
-class SupplierView(CreateView):
+class SupplierView(PermissionRequiredMixin,CreateView):
     model = Supplier
     template_name = 'supplier.html'
     form_class = SupplierForm
     success_url = reverse_lazy('home')
+    permission_required = 'InventoryApp.add_supplier'
+
+
 
     def form_valid(self, form):
         messages.success(self.request,'Added Supplier Successfully')
