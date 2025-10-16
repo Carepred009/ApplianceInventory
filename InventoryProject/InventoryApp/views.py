@@ -331,11 +331,13 @@ class SupplierView(PermissionRequiredMixin,CreateView):
         messages.error(self.request,'Error on Adding! Check inputs!')
         return super().form_invalid(form)
 
+
 #Display all supplier
 class SupplierListView(ListView):
     model = Supplier
     template_name = 'suppliers_list.html'
     context_object_name = 'suppliers'
+    paginate_by = 5
 
 #Update the Supplier
 class SupplierUpdateView(UpdateView):
@@ -433,7 +435,7 @@ class CustomerListView(ListView):
     model = Customer
     template_name = 'customers_list.html'
     context_object_name = 'customers'
-    paginate_by = 10
+    paginate_by = 5
 
 #use TemplateView
 class BaseView(TemplateView):
