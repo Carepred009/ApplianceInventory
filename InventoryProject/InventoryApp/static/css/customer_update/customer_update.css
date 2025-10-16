@@ -1,0 +1,16 @@
+
+
+.card{
+    max-width:800px;
+    margin:auto;
+}
+
+body{
+    background-color: #f0f4f8; /* light gray-blue */
+}
+
+.form-label{
+    font-weight:bold;
+    font-size:15px;
+    color: #2795F5;
+}
