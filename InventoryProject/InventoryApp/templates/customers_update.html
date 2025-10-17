@@ -21,12 +21,12 @@
                 {% csrf_token %}
                 {{form|crispy}}
 
+
                 <div class="text-end mt-4">
                     <button class="btn btn-success px-4 py-2" type="submit">
                         <i class="bi bi-check-circle"></i> Update
                     </button>
                 </div>
-
             </form>
 
         </div>
@@ -36,9 +36,7 @@
 </div>
 
 
-<script>
-
-</script>
+<script src="{% static 'js/customer/customer_update/customer_update.js'%}"> </script>
 
 {%endblock%}
 
