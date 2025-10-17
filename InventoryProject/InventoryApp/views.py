@@ -3,14 +3,18 @@ from lib2to3.fixes.fix_input import context
 
 from django.conf import settings
 from django.contrib.messages import success
+
 from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 
+
 #User Permission
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from .mixins import GroupRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.shortcuts import redirect
+from django.core.exceptions import PermissionDenied
 
 from .models import Customer, Category, Supplier, Product, Stocks, Order, Checkout, IncomingStocks, ProductName
 from .forms import CustomerForm, CategoryForm, SupplierForm, ProductForm, OrderForm, EmailForm, ProductNameForm  #StockArrivalForm #ProductUpdateForm,
@@ -258,28 +262,29 @@ class SpecifiedProductView(ListView):
         return context
 
 #Create product to use in product insertion in Product model
-class ProductNameView(PermissionRequiredMixin,CreateView):
+class ProductNameView(LoginRequiredMixin,PermissionRequiredMixin,CreateView):
     model =  ProductName
     template_name = 'product_name.html'
     form_class = ProductNameForm
     success_url = reverse_lazy('home')
-    permission_required = 'InventoryApp.add_product_name'
 
-    #show this message if the user doesnt have the permission
+    permission_required = 'Inventoryapp.add_productname'
+
     def handle_no_permission(self):
-        messages.error(self.request,"You are not allowed to access this function!")
-        return redirect('home') #or where even you want
+        raise PermissionDenied("You do not have the access on this!")
 
-    #Display message if successfully created
+    # Only allow users in the Supervisor group
+    #group_required = 'Supervisor' --Wont work group permission. Need to fix later
+
+    # Display success message when form is valid
     def form_valid(self, form):
-        messages.success(self.request,"Added Product Name Successfully")
+        messages.success(self.request, "Added Product Name Successfully")
         return super().form_valid(form)
 
-    #Display error when Error occur when inserting
+    # Display error message when form is invalid
     def form_invalid(self, form):
-        messages.error(self.request,"Invalid Input")
+        messages.error(self.request, "Invalid Input")
         return super().form_invalid(form)
-
 
 
 
@@ -356,10 +361,15 @@ class SupplierUpdateView(UpdateView):
         return super().form_invalid(form)
 
 #delete the supplier
-class SupplierDeleteView(DeleteView):
+class SupplierDeleteView(LoginRequiredMixin,PermissionRequiredMixin,DeleteView):
     model = Supplier
     template_name = 'delete_supplier.html'
     success_url = reverse_lazy('supplier_list')
+    permission_required = 'Inventoryapp.delete_supplier'
+
+    def handle_no_permission(self):
+        raise PermissionDenied("You do not have the access on this!")
+
 
     def form_valid(self, form):
         messages.success(self.request,"Deleted Successfully!")
@@ -390,6 +400,7 @@ class CustomerView(CreateView):
     form_class = CustomerForm
     success_url = reverse_lazy('order')
 
+
     #Hold the customer name and id to use in Order model
     def get_success_url(self):
         return reverse('order-create') + f'?customer_id={self.object.pk}'
@@ -403,10 +414,14 @@ class CustomerView(CreateView):
         return super().form_invalid(form)
 
 #Delete Customer
-class CustomerDeleteView(DeleteView):
+class CustomerDeleteView(LoginRequiredMixin,PermissionRequiredMixin,DeleteView):
     model = Customer
     template_name = 'customer_delete.html'
     success_url = reverse_lazy('customer_list')
+    permission_required = 'Inventoryapp.delete_customer'
+
+    def handle_no_permission(self):
+        raise PermissionDenied("You do not have the access on this!")
 
     def form_valid(self, form):
         messages.success(self.request,'Deleted Successfully!')
