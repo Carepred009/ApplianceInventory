@@ -1,0 +1,68 @@
+/* === Custom Table Styles === */
+body {
+  background-color: #f8f9fa;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Table container */
+.container {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Table header */
+table thead th {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+table thead th:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+/* Table row hover effect */
+table tbody tr:hover {
+  background-color: #e9f2ff;
+  transition: background-color 0.25s ease-in-out;
+}
+
+/* Search bar */
+#tableSearch {
+  border-radius: 50px;
+  padding-left: 1.2rem;
+  border: 1px solid #ced4da;
+  transition: all 0.3s ease;
+}
+
+#tableSearch:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 8px rgba(13, 110, 253, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  table {
+    font-size: 0.9rem;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+}
+
+/* Highlight sorted column (optional visual feedback) */
+table thead th.sorted-asc::after {
+  content: " ▲";
+  font-size: 0.8rem;
+  color: #0d6efd;
+}
+
+table thead th.sorted-desc::after {
+  content: " ▼";
+  font-size: 0.8rem;
+  color: #0d6efd;
+}

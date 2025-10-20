@@ -1,7 +1,59 @@
 {%extends 'base.html'%}
 
+{% load crispy_forms_tags static%}
+
+{%  block extra_css%}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/checkout_order/checkout_order.css'%}">
+{%endblock%}
+
 
 {% block content %}
+
+<div class="container">
+   <div class="table-container">
+    <h3 class="text-center text-primary mb-4">📋 Checkout Order List</h3>
+
+    <div class="mb-3">
+      <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search table...">
+    </div>
+
+    <table class="table table-hover table-bordered align-middle">
+      <thead>
+        <tr>
+            <th scope="col">Checkout ID</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Customer</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price per piece</th>
+            <th scope="col">Total</th>
+            <th scope="col">Date</th>
+        </tr>
+      </thead>
+      <tbody id="dataTable">
+           {%for checkout in checkouts%}
+            <tr>
+                <td>    {{checkout.checkout_id}}</td>
+                 <td>  {{checkout.product_name}} </td>
+                 <td>  {{checkout.customer_name}} </td>
+                   <td>  {{checkout.checkout_quantity}}</td>
+                 <td>{{checkout.product_price.price}}</td>
+                 <td> {{checkout.checkout_total}} </td>
+                 <td>  {{checkout.checkout_date}}</td>
+            </tr>
+
+            {%endfor%}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+
+<!--
+
+
+
 
 <div class="container">
      <h1>Check Out Orders</h1>
@@ -48,7 +100,7 @@
 
 </div>
 
-
+-->
 
 
 
