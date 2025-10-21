@@ -12,11 +12,19 @@
 <div class="container">
    <div class="table-container">
     <h3 class="text-center text-primary mb-4">📋 Checkout Order List</h3>
-
-    <div class="mb-3">
-      <input type="text" id="searchInput" class="form-control" placeholder="🔍 Search table...">
+    <!--
+      <div class="mb-3">
+      <input type="text" id="searchInput" class="form-control" value="{{request.GET.q}}" placeholder="🔍 Search table..." >
     </div>
+    -->
+       <!-- use form to get the information. We use GET -->
+    <form method="GET"  class="d-flex align-items-center gap-2 mt-3">
 
+            <input type="text" name="q" placeholder="Search by Name" class="form-control" value="{{request.GET.q}}">
+
+          <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+<br>
     <table class="table table-hover table-bordered align-middle">
       <thead>
         <tr>
@@ -47,6 +55,10 @@
   </div>
 
 </div>
+
+<script>
+
+</script>
 
 
 

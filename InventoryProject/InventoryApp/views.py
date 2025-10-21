@@ -87,7 +87,29 @@ class CheckoutDisplayView(ListView):
     model = Checkout
     template_name = 'display_checkout.html'
     context_object_name = 'checkouts'
-    paginate_by = 10
+    paginate_by = 5
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Checkout.objects.filter(
+                #This will work if you search first name or last name
+                Q (customer_name__first_name__icontains=query) | Q(customer_name__last_name__icontains=query) )
+        return Checkout.objects.all() #.order_by('checkout_date') # its or by id ascending order smallest to largest
+
+
+    '''
+        def get_queryset(self):
+        query = self.request.GET.get("q")
+        if query:
+            return Stocks.objects.filter(                   # Not working if you want to search is converted to foreign key
+                Q(product__product_name__product_name__icontains=query) | Q(supplier__supplier_name__icontains=query)  # FieldError at /inventory/search_result/ #Unsupported lookup 'icontains' for ForeignKey or join on the field not permitted.
+            )
+        else:
+            return Stocks.objects.none() # Or `.all()` if you want to show everything by default
+    
+    '''
+
     #ordering = []
 
 #Show the Detail or Specific order from Order model
