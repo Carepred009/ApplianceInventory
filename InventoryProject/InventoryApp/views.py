@@ -1,6 +1,6 @@
 from itertools import product
 from lib2to3.fixes.fix_input import context
-
+import json
 from django.conf import settings
 from django.contrib.messages import success
 
@@ -22,6 +22,13 @@ from django.views.generic import TemplateView, CreateView, ListView, DetailView,
 from django.db.models import Sum, F, Q
 
 # Create your views here.
+
+#checks if the user is log in and if not It will automatically redirect to log in page
+class HomeView(LoginRequiredMixin,TemplateView):
+    template_name = 'home.html'
+    login_url = 'login'
+    redirect_field_name = 'home'
+
 
 #Sending email to subject/customer etc. Use FormView not Directly connected to Model
 class EmailContactView(FormView):
@@ -50,6 +57,8 @@ class EmailContactView(FormView):
 class SalesChartView(TemplateView):
     template_name = 'sales_chart.html'
 
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -61,6 +70,8 @@ class SalesChartView(TemplateView):
         context['labels'] = [checkout.product_name.product_name for checkout in checkouts]
         context['data']  = [checkout.checkout_quantity for checkout in checkouts]
         return context
+
+
 
 #Display the
 class PieChartView(TemplateView):
@@ -79,6 +90,8 @@ class PieChartView(TemplateView):
         context['labels'] = [item['product_name__product_name'] for item in grouped_data]
         context['counts'] = [item['total_count'] for item in grouped_data]
         return context
+
+
 
 class UpdateCustomer(UpdateView):
     model = Customer
@@ -475,6 +488,6 @@ class CustomerListView(ListView):
     paginate_by = 5
 
 #use TemplateView
-class BaseView(TemplateView):
-    template_name = "home.html"
+#class BaseView(TemplateView):
+  #  template_name = "home.html"
 
