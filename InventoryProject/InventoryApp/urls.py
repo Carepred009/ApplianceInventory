@@ -2,7 +2,7 @@ from django.views.generic import TemplateView
 from django.urls import path
 
 from django.views.generic import TemplateView
-from .views import (BaseView, CustomerView, CategoryView, SupplierView, ProductView, StocksView, SearchResultView,
+from .views import (HomeView, CustomerView, CategoryView, SupplierView, ProductView, StocksView, SearchResultView,
                     OrderAccept, OrderDisplay, SpecifiedProductView, CheckOutView,
                     CheckoutDisplayView, IncomingStocksView, SalesChartView, CustomerListView, SupplierListView,
                     SupplierUpdateView, SupplierDeleteView, CustomerUpdateView, CustomerDeleteView, EmailContactView, ProductNameView, PieChartView
@@ -12,7 +12,7 @@ from .views import (BaseView, CustomerView, CategoryView, SupplierView, ProductV
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('',BaseView.as_view(), name="home"),
+    path('',HomeView.as_view(), name ="home"),
 
     #without using view in the views.py
     #path('home_design/',TemplateView.as_view(template_name='home2.html'), name="home_design"),

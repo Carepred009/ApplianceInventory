@@ -3,12 +3,15 @@
 
 {%block content%}
 
+
+
 <div class="container">
     <h2>Product Quantities</h2>
     <div style="width:60%; height:70%; margin:auto;">
               <canvas id="PieChartStocks"></canvas>
     </div>
 </div>
+
 
 <script>
       const ctx = document.getElementById('PieChartStocks').getContext('2d');
@@ -35,4 +38,6 @@
             }
         });
 </script>
+
+
 {%endblock%}
